@@ -1,4 +1,5 @@
 import User from "./authModal.js";
-import Product from "./ProductModel.js";
+import Packages from "./PackageModel.js";
+import Settings from "./settingModal.js";
 
-export { User, Product };
+export { User, Packages, Settings };

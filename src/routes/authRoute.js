@@ -3,6 +3,7 @@ import moment from "moment";
 import multer from "multer";
 
 import { login } from "../controller/authController.js";
+import { no_image } from "../configuration/config.js";
 const router = Router();
 
 const storage = multer.diskStorage({
@@ -19,9 +20,8 @@ const storage = multer.diskStorage({
   },
 });
 
-const no_upload = multer().none();
 const upload_single = multer({ storage }).single("profile_image");
 
-router.post("/login", no_upload, login);
+router.post("/login", no_image, login);
 
 export default router;

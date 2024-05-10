@@ -1,12 +1,15 @@
 import chalk from "chalk";
-import { connect } from "mongoose";
+import multer from "multer";
 import { config } from "dotenv";
+import { connect } from "mongoose";
 
 config();
 export const DBcon = async () => {
   try {
     await connect(process.env.MONGO_URL);
-    console.log(chalk.hex("#DEADED").italic("MongoDB connected"));
+    console.log(
+      chalk.hex("#00C851").italic("ᴹᵒⁿᵍᵒᴰᴮ ⁱˢ ᶜᵒⁿⁿᵉᶜᵗᵉᵈ ˢᵘᶜᶜᵉˢˢᶠᵘˡˡʸ")
+    );
   } catch (error) {
     authRoute;
     console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
@@ -14,5 +17,7 @@ export const DBcon = async () => {
 };
 
 export const catchErr = (data, a) => {
-  return `Internal server error ${data} API ${a} controller`;
+  return `Internal server error in ${data} API, ${a} controller`;
 };
+
+export const no_image = multer().none();

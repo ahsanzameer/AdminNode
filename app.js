@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { config } from "dotenv";
-import { authRoute } from "./src/routes/index.js";
+import { authRoute, PackageRoute, settingRouter } from "./src/routes/index.js";
 import express, { json, urlencoded } from "express";
 import { DBcon } from "./src/configuration/config.js";
 
@@ -14,6 +14,8 @@ app.use(urlencoded({ extended: false }));
 const port = process.env.PORT || 8010;
 
 app.use("/auth", authRoute);
+app.use("/product", PackageRoute);
+app.use("/setting", settingRouter);
 app.get("/", (_, res) => res.send("Admin Node app!"));
 
 app.listen(port, () =>

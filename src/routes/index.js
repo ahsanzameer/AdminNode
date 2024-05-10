@@ -1,4 +1,5 @@
 import authRoute from "./authRoute.js";
-import productRoute from "./ProductRoute.js";
+import PackageRoute from "./PackageRoute.js";
+import settingRouter from "./settingRoute.js";
 
-export { authRoute, ProductRoute };
+export { authRoute, PackageRoute, settingRouter };
