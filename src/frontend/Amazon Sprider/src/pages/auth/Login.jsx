@@ -45,9 +45,12 @@ const Login = () => {
     const response = await loginApi(e);
     if (response.data?.status == 200) {
       dispatch(setUser(response.data?.data));
+      setToggleBtn(false);
     } else if (response.data?.error?.message == "Incorrect Email or Password") {
       console.log("else error ====>");
-      setError(true);
+      setToggleBtn(false);
+
+      // setError(true);
     }
   };
 
