@@ -4,12 +4,14 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
-import './css/style.css';
-import './css/satoshi.css';
+import "./css/style.css";
+import "./css/satoshi.css";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
+      <Toaster />
       <App />
     </Provider>
   </React.StrictMode>
