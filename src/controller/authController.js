@@ -19,14 +19,14 @@ export const login = asyncHandler(async (req, res) => {
     } else if (!user) {
       return res.status(200).json({
         status: 400,
-        message: "Invalid Email",
+        message: "Your email is invalid",
       });
     } else {
       const checkPass = await User.findOne({ password });
       if (!checkPass) {
         return res.status(200).json({
           status: 400,
-          message: "Invalid Password",
+          message: "Your Password is invalid",
         });
       } else {
         return res.status(200).json({
