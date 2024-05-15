@@ -31,6 +31,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
+
         <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
@@ -54,6 +55,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
+
         <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
@@ -73,6 +75,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
+
         <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
           <svg
             className="fill-primary dark:fill-white"
@@ -99,10 +102,10 @@ const ECommerce: React.FC = () => {
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        {/* <ChartThree /> */}
         <ChartOne />
         <ChartTwo />
-        <ChartThree />
-        <MapOne />
+        {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           {/* <TableOne /> */}
         </div>
