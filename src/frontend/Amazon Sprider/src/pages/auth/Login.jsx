@@ -51,7 +51,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="h-screen border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-wrap items-center">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
@@ -189,10 +189,11 @@ const SignIn = () => {
             </span>
           </div>
         </div>
+
         <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5 mb-30">
-            <div className="flex-row justify-between">
-              <h2 className="mb-10 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+            <div className="flex flex-row justify-between mb-10">
+              <h2 className="text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign In
               </h2>
               <DarkModeSwitcher />
@@ -247,21 +248,18 @@ const SignIn = () => {
                     placeholder="6+ Characters, 1 Capital letter"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
-
                   <span className="absolute right-4 top-4">
                     {showPassword ? (
                       <FaRegEyeSlash
-                        color="#404F62"
                         size={21}
                         onClick={togglePassword}
-                        className="cursor-pointer"
+                        className="cursor-pointer text-[#B1B9C5] dark:text-[#404F62]"
                       />
                     ) : (
                       <FaRegEye
-                        color="#404F62"
                         size={21}
                         onClick={togglePassword}
-                        className="cursor-pointer"
+                        className="cursor-pointer text-[#B1B9C5] dark:text-[#404F62]"
                       />
                     )}
                   </span>
