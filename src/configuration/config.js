@@ -11,7 +11,6 @@ export const DBcon = async () => {
       chalk.hex("#00C851").italic("ᴹᵒⁿᵍᵒᴰᴮ ⁱˢ ᶜᵒⁿⁿᵉᶜᵗᵉᵈ ˢᵘᶜᶜᵉˢˢᶠᵘˡˡʸ")
     );
   } catch (error) {
-    authRoute;
     console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
   }
 };

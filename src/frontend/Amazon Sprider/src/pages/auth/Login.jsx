@@ -245,7 +245,7 @@ const SignIn = () => {
                     id="password"
                     onChange={handleChange}
                     value={password}
-                    placeholder="6+ Characters, 1 Capital letter"
+                    placeholder="Password"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                   <span className="absolute right-4 top-4">
@@ -268,8 +268,9 @@ const SignIn = () => {
 
               <div className="mb-5">
                 <input
+                  disabled={isLoading}
                   type="submit"
-                  value="Sign In"
+                  value={isLoading ? "Loading..." : "Sign In"}
                   className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                 />
               </div>
@@ -311,14 +312,14 @@ const SignIn = () => {
                 Sign in with Google
               </button> */}
 
-              <div className="mt-6 text-center">
+              {/* <div className="mt-6 text-center">
                 <p>
                   Don’t have any account?{" "}
                   <Link to="/auth/signup" className="text-primary">
                     Sign Up
                   </Link>
                 </p>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
