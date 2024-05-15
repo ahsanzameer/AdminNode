@@ -1,3 +1,6 @@
-import Home from "./Home.jsx";
+import ECommerce from "../Dashboard/ECommerce";
 
-export { Home };
+import Profile from "../Profile";
+import Settings from "../Settings";
+
+export { Profile, ECommerce, Settings };

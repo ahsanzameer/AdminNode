@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoDark from "../../images/logo/logo-dark.svg";
 import Logo from "../../images/logo/logo.svg";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
 import toast from "react-hot-toast";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/slices/authSlice";
 import { useLoginMutation } from "../../redux/actions/authAction";
 import { Button } from "../../components";
+import DarkModeSwitcher from "../../components/Header/DarkModeSwitcher";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -189,13 +189,14 @@ const SignIn = () => {
             </span>
           </div>
         </div>
-
         <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5 mb-30">
-            <h2 className="mb-10 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-              Sign In
-            </h2>
-
+            <div className="flex-row justify-between">
+              <h2 className="mb-10 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+                Sign In
+              </h2>
+              <DarkModeSwitcher />
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">

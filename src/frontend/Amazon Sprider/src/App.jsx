@@ -11,9 +11,7 @@ import { Layout } from "./components";
 import { useSelector } from "react-redux";
 
 import PageTitle from "./components/PageTitle";
-import ECommerce from "./pages/Dashboard/ECommerce";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
+import { ECommerce, Profile, Settings } from "./pages/user";
 
 const Router = () => {
   return (
