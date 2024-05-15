@@ -11,7 +11,7 @@ import { Layout } from "./components";
 import { useSelector } from "react-redux";
 
 import PageTitle from "./components/PageTitle";
-import { ECommerce, Profile, Settings , AddPackage, EditPackage} from "./pages/user";
+import { ECommerce, Profile, Settings , AddPackage, ListPackage} from "./pages/user";
 
 const Router = () => {
   return (
@@ -62,7 +62,7 @@ const Router = () => {
             element={
               <>
                 <PageTitle title="Edit Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <EditPackage />
+                <ListPackage />
               </>
             }
           />

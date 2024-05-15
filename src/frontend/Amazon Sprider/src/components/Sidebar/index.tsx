@@ -286,7 +286,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Add Packages
+                              Add Package
                             </NavLink>
                           </li>
                           <li>
@@ -297,7 +297,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Edit Packages
+                              List Packages
                             </NavLink>
                           </li>
                         </ul>
