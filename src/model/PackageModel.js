@@ -5,9 +5,9 @@ const packageSchema = new Schema(
     packageName: { type: String },
     packageDesc: { type: String },
     packagePrice: { type: String },
-    packageAmazonImportNumer: { type: Number },
-    // packageAmazonImportNumer: { type: Boolean },
-    packageCsvImportNumer: { type: Number },
+    packageAmazonImportNumber: { type: Number },
+    packageCSVImportBoolean: { type: String },
+    packageCsvImportNumber: { type: Number },
   },
   { timestamps: true }
 );

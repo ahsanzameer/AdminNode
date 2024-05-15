@@ -8,8 +8,9 @@ export const addPackage = asyncHandler(async (req, res) => {
       packageName,
       packageDesc,
       packagePrice,
-      packageAmazonImportNumer,
-      packageCsvImportNumer,
+      packageAmazonImportNumber,
+      packageCSVImportBoolean,
+      packageCsvImportNumber,
     } = req.body;
     const checkPackName = await Packages.findOne({ packageName });
     const checkPackPrice = await Packages.findOne({ packagePrice });
@@ -17,7 +18,8 @@ export const addPackage = asyncHandler(async (req, res) => {
       !packageName ||
       !packageDesc ||
       !packagePrice ||
-      !packageAmazonImportNumer
+      !packageAmazonImportNumber ||
+      !packageCSVImportBoolean
     ) {
       res.status(200).json({
         status: 400,
@@ -28,25 +30,36 @@ export const addPackage = asyncHandler(async (req, res) => {
             ? "Package Description"
             : !packagePrice
             ? "Package Price"
-            : !packageAmazonImportNumer
-            ? "Package Amazon Import Numer"
+            : !packageAmazonImportNumber
+            ? "Package Amazon Import Number"
+            : !packageCSVImportBoolean
+            ? "packageCSVImportBoolean"
             : ""
-        }  is required`,
+        } is required`,
+      });
+    } else if (
+      packageCSVImportBoolean === "Yes" &&
+      packageCsvImportNumber === undefined
+    ) {
+      res.status(200).json({
+        status: 400,
+        message: "packageCsvImportNumber is required",
       });
     } else if (checkPackName || checkPackPrice) {
       res.status(200).json({
         status: 400,
         message: `This Package ${
           checkPackName ? "Name" : "Price"
-        }  is already exist`,
+        } is already exist`,
       });
     } else {
       const data = await Packages.create({
         packageName,
         packageDesc,
         packagePrice,
-        packageAmazonImportNumer,
-        packageCsvImportNumer,
+        packageAmazonImportNumber,
+        packageCSVImportBoolean,
+        packageCsvImportNumber,
       });
       res.status(200).json({
         data,
@@ -133,8 +146,8 @@ export const editPackage = asyncHandler(async (req, res) => {
     packageName,
     packageDesc,
     packagePrice,
-    packageAmazonImportNumer,
-    packageCsvImportNumer,
+    packageAmazonImportNumber,
+    packageCsvImportNumber,
   } = req.body;
   const data = await Packages.findByIdAndUpdate(
     _id,
@@ -142,8 +155,8 @@ export const editPackage = asyncHandler(async (req, res) => {
       packageName,
       packageDesc,
       packagePrice,
-      packageAmazonImportNumer,
-      packageCsvImportNumer,
+      packageAmazonImportNumber,
+      packageCsvImportNumber,
     },
     { new: true }
   );
@@ -152,8 +165,8 @@ export const editPackage = asyncHandler(async (req, res) => {
       !packageName ||
       !packageDesc ||
       !packagePrice ||
-      !packageAmazonImportNumer ||
-      !packageCsvImportNumer
+      !packageAmazonImportNumber ||
+      !packageCsvImportNumber
     ) {
       return res.status(200).json({
         status: 200,
@@ -164,10 +177,10 @@ export const editPackage = asyncHandler(async (req, res) => {
             ? "Package Description"
             : !packagePrice
             ? "Package Price"
-            : !packageAmazonImportNumer
-            ? "Package Amazon Import Numer"
-            : !packageCsvImportNumer
-            ? "Package Csv Import Numer"
+            : !packageAmazonImportNumber
+            ? "Package Amazon Import Number"
+            : !packageCsvImportNumber
+            ? "Package Csv Import Number"
             : ""
         }  is required`,
       });
