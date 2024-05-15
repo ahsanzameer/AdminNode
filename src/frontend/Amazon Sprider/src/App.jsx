@@ -11,13 +11,13 @@ import { Layout } from "./components";
 import { useSelector } from "react-redux";
 
 import PageTitle from "./components/PageTitle";
-import { ECommerce, Profile, Settings } from "./pages/user";
+import { ECommerce, Profile, Settings , AddPackage, EditPackage} from "./pages/user";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute />}>
+        <Route element={<PublicRoute />}>
           <Route
             index
             path="/"
@@ -48,11 +48,29 @@ const Router = () => {
               </>
             }
           />
+          <Route
+            path="/addpackage"
+            element={
+              <>
+                <PageTitle title="Add Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <AddPackage />
+              </>
+            }
+          />
+          <Route
+            path="/editpackage"
+            element={
+              <>
+                <PageTitle title="Edit Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <EditPackage />
+              </>
+            }
+          />
         </Route>
 
-        <Route element={<PublicRoute />}>
+        {/* <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
-        </Route>
+        </Route> */}
       </Routes>
 
       {/* <Route path="*" element={<Error404 />} /> */}
