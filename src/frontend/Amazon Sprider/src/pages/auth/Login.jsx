@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Page } from "../../components";
 import { setUser } from "../../redux/slices/authSlice";
+import { useLoginMutation } from "../../redux/actions/authAction";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,10 +15,9 @@ const Login = () => {
   const [email, setEmail] = useState("test@gmail.com");
   const [toggleBtn, setToggleBtn] = useState(false);
   const [password, setPassword] = useState({
-    isVisible: false,
     value: "12345678",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   console.log("user", user);
 
   if (user) {
@@ -31,15 +31,16 @@ const Login = () => {
     if (name === "email") {
       setEmail(value);
     } else {
-      setPassword({ ...password, value });
+      setPassword({ ...password });
     }
   };
 
-  const togglePassword = () =>
-    setPassword((prev) => ({ ...prev, isVisible: !prev.isVisible }));
+  const togglePassword = () => setShowPassword((prev) => !prev);
+  const [loginApi, { data, isLoading }] = useLoginMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(e);
 
     setToggleBtn(true);
     const response = await loginApi(e);
@@ -81,7 +82,7 @@ const Login = () => {
               </div>
               <div className="flex items-center w-full mb-1 overflow-hidden text-xs font-medium text-gray-900 bg-gray-100 rounded-md focus:ring-primary-500 focus:border-primary-500">
                 <input
-                  type={password.isVisible ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   onChange={handleChange}
@@ -91,7 +92,7 @@ const Login = () => {
                   required={true}
                 />
                 <div className="w-10 text-lg text-primary-500">
-                  {password.isVisible ? (
+                  {showPassword ? (
                     <AiFillEyeInvisible
                       onClick={togglePassword}
                       className="cursor-pointer"
@@ -105,7 +106,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="w-full text-right text-[11px] font-medium mb-3 mt-2">
+              {/* <div className="w-full text-right text-[11px] font-medium mb-3 mt-2">
                 <Link
                   to={"/forgot-password"}
                   className="text-primary-400 hover:text-primary-500 hover:underline"
@@ -113,16 +114,16 @@ const Login = () => {
                   {" "}
                   Forgot Password?
                 </Link>
-              </div>
+              </div> */}
 
               <Button
                 type="submit"
-                loading={toggleBtn}
-                title={toggleBtn ? "Logging in" : "Login"}
-                extraStyles={toggleBtn ? "!py-2 !w-full" : "!py-3 !w-full"}
+                loading={isLoading}
+                title={isLoading ? "Loading..." : "Login"}
+                extraStyles={isLoading ? "!py-2 !w-full" : "!py-3 !w-full"}
               />
 
-              <div className="w-full text-center text-nowrap text-[11px] font-medium mt-3">
+              {/* <div className="w-full text-center text-nowrap text-[11px] font-medium mt-3">
                 Don't have an account?{" "}
                 <Link
                   to="/register"
@@ -130,7 +131,7 @@ const Login = () => {
                 >
                   Register
                 </Link>
-              </div>
+              </div> */}
             </form>
           </div>
         </section>
