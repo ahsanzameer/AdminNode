@@ -1,14 +1,30 @@
-import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "./reducers";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { authApi } from "./actions/authAction";
-import { persistReducer, persistStore } from "redux-persist";
 import { userApi } from "./actions/userAction";
+import { authApi } from "./actions/authAction";
+import zakhira from "redux-persist/lib/storage";
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { persistStore, persistReducer } from "redux-persist";
 
-export const store = configureStore({
-  reducer: rootReducer,
+const persistConfig = {
+  key: "root",
+  storage: zakhira,
+  whitelist: ["auth", "getPackages", authApi.reducerPath, userApi.reducerPath],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  storage: zakhira,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, userApi.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      authApi.middleware,
+      userApi.middleware
+    ),
 });
 
 setupListeners(store.dispatch);
+const persistor = persistStore(store);
+
+export { store, persistor };

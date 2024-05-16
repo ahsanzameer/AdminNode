@@ -1,9 +1,10 @@
 import { Settings } from "../model/index.js";
+import slug from "slug";
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
 
 export const addSetting = asyncHandler(async (req, res) => {
-  const { appId, storeID, androidID, linkedInImage, facebookInImage } =
+  const { appId, storeID, androidID, linkedInImage, facebookInImage, objects } =
     req.body;
   try {
     if (
@@ -11,7 +12,8 @@ export const addSetting = asyncHandler(async (req, res) => {
       !storeID ||
       !androidID ||
       !linkedInImage ||
-      !facebookInImage
+      !facebookInImage ||
+      !objects
     ) {
       return res.status(200).json({
         status: 400,
@@ -26,6 +28,8 @@ export const addSetting = asyncHandler(async (req, res) => {
             ? "linkedInImage"
             : !facebookInImage
             ? "facebookInImage"
+            : !objects
+            ? "objects"
             : ""
         } is required`,
       });
@@ -33,6 +37,7 @@ export const addSetting = asyncHandler(async (req, res) => {
       const data = await Settings.create({
         appId,
         storeID,
+        objects,
         androidID,
         linkedInImage,
         facebookInImage,
@@ -55,6 +60,8 @@ export const addSetting = asyncHandler(async (req, res) => {
 export const getSetting = asyncHandler(async (req, res) => {
   const { setting_id } = req.params;
   const data = await Settings.findById(setting_id);
+  const val = slug("i ♥ unicode hellow world,,,,,", "_");
+
   try {
     if (!data) {
       return res.status(200).json({
@@ -63,6 +70,7 @@ export const getSetting = asyncHandler(async (req, res) => {
       });
     } else {
       return res.status(200).json({
+        val,
         data,
         status: 200,
         message: "Found Data",
@@ -128,6 +136,23 @@ export const editSetting = asyncHandler(async (req, res) => {
       error,
       status: 500,
       message: catchErr("editSetting", "Setting"),
+    });
+  }
+});
+
+export const getAllSetting = asyncHandler(async (_, res) => {
+  try {
+    const data = await Settings.find();
+    return res.status(200).json({
+      data,
+      status: 200,
+      message: "Found Data",
+    });
+  } catch (error) {
+    return res.status(200).json({
+      error,
+      status: 500,
+      message: catchErr("getAllSetting", "Setting"),
     });
   }
 });
