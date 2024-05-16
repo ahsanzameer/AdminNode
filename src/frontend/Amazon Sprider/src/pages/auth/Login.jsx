@@ -30,18 +30,18 @@ const SignIn = () => {
     }
   };
   const togglePassword = () => setShowPassword((prev) => !prev);
-  const [loginApi, { data, isLoading }] = useLoginMutation();
+  const [loginApi, { isLoading }] = useLoginMutation();
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       const response = await loginApi({ email, password });
-      console.log({ response });
-      if (response.data?.status == 200) {
-        dispatch(setUser(response.data?.data));
-        toast.success(response.data?.message, { duration: 3000 });
-      } else if (response.data?.message) {
-        toast.error(response.data?.message, { duration: 3000 });
-        console.log("response.data?.message", response.data?.message);
+      const { status, message, data } = response.data;
+      if (status === 200) {
+        dispatch(setUser(data));
+        toast.success(message, { duration: 3000 });
+      } else if (status === 400) {
+        console.log("message", message);
+        toast.error(message, { duration: 3000 });
       }
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="h-screen border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-wrap items-center">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">

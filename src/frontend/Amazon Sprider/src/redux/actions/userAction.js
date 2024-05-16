@@ -13,13 +13,31 @@ export const userApi = createApi({
         body: data,
       }),
     }),
-    GetPackage: builder.query({
+    GetPackage: builder.mutation({
       query: () => ({
         url: "product/getPackage",
         method: "GET",
       }),
     }),
+    DeletePackage: builder.mutation({
+      query: (id) => ({
+        url: `product/deletePackage/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    EditPackage: builder.mutation({
+      query: (item) => ({
+        url: `product/editPackage/${item.id}`,
+        method: "PATCH",
+        body: item,
+      }),
+    }),
   }),
 });
 
-export const { useAddPackageMutation, useGetPackageQuery } = userApi;
+export const {
+  useAddPackageMutation,
+  useGetPackageMutation,
+  useDeletePackageMutation,
+  useEditPackageMutation,
+} = userApi;
