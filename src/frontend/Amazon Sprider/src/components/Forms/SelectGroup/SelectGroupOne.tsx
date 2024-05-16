@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const SelectGroupOne: React.FC = (props) => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string>(props.showCSV ? props.showCSV : '');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
   const changeTextColor = () => {

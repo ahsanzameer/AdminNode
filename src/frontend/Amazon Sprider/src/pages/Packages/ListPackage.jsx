@@ -23,6 +23,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ViewPackageModal from '../../components/Modals/ViewPackageModal';
+import EditPackageModal from '../../components/Modals/EditPackageModal';
 
 
 function ListPackage() {
@@ -36,13 +37,17 @@ function ListPackage() {
   const [open3, setOpen3] = useState(false);
   const handleClose3 = () => setOpen3(false);
 
+  const [open4, setOpen4] = useState(false);
+  const handleClose4 = () => setOpen4(false);
+
   const handleClick = (event, rowData) => {
     setAnchorEl(event.currentTarget);
     setData(rowData)
   };
   const handleClose = (type, emnt) => {
     if (type == 'edit') {
-     navigate('/editpackage');
+      setOpen4(true)
+    //  navigate('/editpackage');
     } else if (type == 'delete') {
       setOpen2(true);
     } else if (type == 'detail') {
@@ -154,6 +159,11 @@ function ListPackage() {
         data={data}
         open={open3}
         onClose={handleClose3}
+      />
+      <EditPackageModal
+         data={data}
+        open={open4}
+        onClose={handleClose4}
       />
     </DefaultLayout>
   );
