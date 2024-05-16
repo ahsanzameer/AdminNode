@@ -11,7 +11,7 @@ import { Layout } from "./components";
 import { useSelector } from "react-redux";
 
 import PageTitle from "./components/PageTitle";
-import { ECommerce, Profile, Settings , AddPackage, ListPackage} from "./pages/user";
+import { ECommerce, Profile, Settings , AddPackage, ListPackage, EditPackage} from "./pages/user";
 
 const Router = () => {
   return (
@@ -58,11 +58,20 @@ const Router = () => {
             }
           />
           <Route
+            path="/listpackage"
+            element={
+              <>
+                <PageTitle title="List Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <ListPackage />
+              </>
+            }
+          />
+          <Route
             path="/editpackage"
             element={
               <>
                 <PageTitle title="Edit Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <ListPackage />
+                <EditPackage />
               </>
             }
           />
