@@ -20,7 +20,7 @@ const style = {
 
 function EditPackageModal(props) {
     const { data, open, onClose } = props
-    const [showCSV, setShowCSV] = useState(data.csv ? data.csv : 'No')
+    const [showCSV, setShowCSV] = useState(data?.csv ? data?.csv : 'No')
 
     return (
         <Modal
@@ -51,7 +51,7 @@ function EditPackageModal(props) {
                                                 Name
                                             </label>
                                             <input
-                                                defaultValue={data.name}
+                                                defaultValue={data?.name}
                                                 type="text"
                                                 placeholder="Package name"
                                                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -63,7 +63,7 @@ function EditPackageModal(props) {
                                                 Price
                                             </label>
                                             <input
-                                                defaultValue={data.price}
+                                                defaultValue={data?.price}
                                                 type="text"
                                                 placeholder="Package price"
                                                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -76,23 +76,23 @@ function EditPackageModal(props) {
                                             Amazon import number <span className="text-meta-1">*</span>
                                         </label>
                                         <input
-                                            defaultValue={data.amazon_imp_no}
+                                            defaultValue={data?.amazon_imp_no}
                                             type="number"
                                             placeholder="Import number"
                                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
                                     </div>
 
-                                    <SelectGroupOne showCSV={data.csv} setShowCSV={setShowCSV} />
+                                    <SelectGroupOne showCSV={data?.csv} setShowCSV={setShowCSV} />
 
                                     {
-                                        showCSV == 'Yes' || data.csv  &&
+                                        showCSV == 'Yes' || data?.csv  &&
                                         <div className="mb-4">
                                             <label className="mb-2.5 block text-black dark:text-white">
                                                 CSV number <span className="text-meta-1">*</span>
                                             </label>
                                             <input
-                                            defaultValue={data.csv}
+                                            defaultValue={data?.csv}
                                                 type="number"
                                                 placeholder="CSV number"
                                                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -108,7 +108,7 @@ function EditPackageModal(props) {
                                             Description
                                         </label>
                                         <textarea
-                                            defaultValue={data.dsc}
+                                            defaultValue={data?.dsc}
                                             rows={6}
                                             placeholder="Type your message"
                                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
