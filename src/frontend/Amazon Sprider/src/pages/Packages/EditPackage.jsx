@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 function EditPackage() {
     const [showCSV, setShowCSV] = useState('No')
 
-  console.log('showCSV', showCSV)
 
 
   return (
