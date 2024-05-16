@@ -11,7 +11,15 @@ import { Toaster } from "react-hot-toast";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <Toaster />
+      <Toaster
+        gutter={8}
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          className:
+            "text-[#000] dark:text-[#fff] bg-[#fffffff2] dark:bg-[#24303ff2] border border-[#3C50E0]",
+        }}
+      />
       <App />
     </Provider>
   </React.StrictMode>

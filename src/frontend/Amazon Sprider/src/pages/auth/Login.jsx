@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/slices/authSlice";
 import { useLoginMutation } from "../../redux/actions/authAction";
-import { Button } from "../../components";
 import DarkModeSwitcher from "../../components/Header/DarkModeSwitcher";
 
 const SignIn = () => {

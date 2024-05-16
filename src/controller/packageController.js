@@ -1,6 +1,6 @@
+import { Packages } from "../model/index.js";
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
-import { Packages } from "../model/index.js";
 
 export const addPackage = asyncHandler(async (req, res) => {
   try {
@@ -76,12 +76,12 @@ export const addPackage = asyncHandler(async (req, res) => {
   }
 });
 
-export const getPackage = asyncHandler(async (req, res) => {
+export const getPackage = asyncHandler(async (_, res) => {
   try {
     const data = await Packages.find();
     return res.status(200).json({
-      data,
       status: 200,
+      object: data.reverse(),
       message: "Found the Data",
     });
   } catch (error) {

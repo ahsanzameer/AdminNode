@@ -1,35 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const SelectGroupOne: React.FC = (props) => {
-  const [selectedOption, setSelectedOption] = useState<string>(props.showCSV ? props.showCSV : '');
-  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
-
-  const changeTextColor = () => {
-    setIsOptionSelected(true);
-  };
+const SelectGroupOne = ({ setShowCSV }) => {
+  const [selectedOption, setSelectedOption] = useState("No");
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
 
   return (
     <div className="mb-4.5">
-      <label className="mb-2.5 block text-black dark:text-white">
-        {' '}
-        CSV{' '}
-      </label>
+      <label className="mb-2.5 block text-black dark:text-white"> CSV </label>
 
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
           value={selectedOption}
           onChange={(e) => {
             setSelectedOption(e.target.value);
-            props.setShowCSV(e.target.value)
-            changeTextColor();
+            setShowCSV(e.target.value);
+            setIsOptionSelected(true);
           }}
           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
-            isOptionSelected ? 'text-black dark:text-white' : ''
+            isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >
-          <option value="" disabled className="text-body dark:text-bodydark">
-            Select
-          </option>
           <option value="Yes" className="text-body dark:text-bodydark">
             Yes
           </option>

@@ -1,13 +1,52 @@
-import React, { useState } from 'react'
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
-import DefaultLayout from '../../layout/DefaultLayout'
-import SelectGroupOne from '../../components/Forms/SelectGroup/SelectGroupOne';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import DefaultLayout from "../../layout/DefaultLayout";
+import { useAddPackageMutation } from "../../redux/actions/userAction";
+import SelectGroupOne from "../../components/Forms/SelectGroup/SelectGroupOne";
 
 function AddPackage() {
-  const [showCSV, setShowCSV] = useState('No')
+  const [showCSV, setShowCSV] = useState("No");
+  const [value, setValue] = useState({
+    packageName: "",
+    packagePrice: "",
+    packageAmazonImportNumber: "",
+    packageCSVImportBoolean: showCSV,
+    packageCsvImportNumber: "",
+    packageDesc: "",
+  });
 
-  console.log('showCSV', showCSV)
+  const handleChange = (e) => {
+    setValue({
+      ...value,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const [addProductApi, { isLoading }] = useAddPackageMutation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await addProductApi(value);
+      const { status, message } = response.data;
+      if (status === 200) {
+        toast.success(message, { duration: 3000 });
+        setValue({
+          packageName: "",
+          packagePrice: "",
+          packageAmazonImportNumber: "",
+          packageCSVImportBoolean: showCSV,
+          packageCsvImportNumber: "",
+          packageDesc: "",
+        });
+      } else if (message) {
+        toast.error(message, { duration: 3000 });
+        console.log("message", message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error, { duration: 3000 });
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -21,7 +60,7 @@ function AddPackage() {
                 Add Package
               </h3>
             </div>
-            <form action="#">
+            <form action="#" onSubmit={handleSubmit}>
               <div className="p-6.5">
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                   <div className="w-full xl:w-1/2">
@@ -30,6 +69,9 @@ function AddPackage() {
                     </label>
                     <input
                       type="text"
+                      name="packageName"
+                      value={value.packageName}
+                      onChange={handleChange}
                       placeholder="Package name"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -41,6 +83,9 @@ function AddPackage() {
                     </label>
                     <input
                       type="text"
+                      name="packagePrice"
+                      value={value.packagePrice}
+                      onChange={handleChange}
                       placeholder="Package price"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -49,33 +94,35 @@ function AddPackage() {
 
                 <div className="mb-4.5">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Amazon import number <span className="text-meta-1">*</span>
+                    Amazon import number
                   </label>
                   <input
                     type="number"
-                    placeholder="Import number"
+                    onChange={handleChange}
+                    name="packageAmazonImportNumber"
+                    value={value.packageAmazonImportNumber}
+                    placeholder="Amazon Import number"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
 
                 <SelectGroupOne setShowCSV={setShowCSV} />
 
-                {
-                  showCSV == 'Yes' &&
+                {showCSV == "Yes" && (
                   <div className="mb-4">
                     <label className="mb-2.5 block text-black dark:text-white">
-                      CSV number <span className="text-meta-1">*</span>
+                      CSV number
                     </label>
                     <input
                       type="number"
+                      onChange={handleChange}
                       placeholder="CSV number"
+                      name="packageCsvImportNumber"
+                      value={value.packageCsvImportNumber}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                   </div>
-                }
-
-
-
+                )}
 
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
@@ -83,24 +130,27 @@ function AddPackage() {
                   </label>
                   <textarea
                     rows={6}
+                    name="packageDesc"
+                    onChange={handleChange}
+                    value={value.packageDesc}
                     placeholder="Type your message"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  ></textarea>
+                  />
                 </div>
 
-
-
-                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                  Submit
+                <button
+                  disabled={isLoading}
+                  className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                >
+                  {isLoading ? "Loading..." : "Submit"}
                 </button>
               </div>
             </form>
           </div>
         </div>
-
       </div>
     </DefaultLayout>
-  )
+  );
 }
 
-export default AddPackage
+export default AddPackage;
