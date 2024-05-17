@@ -3,6 +3,7 @@ import slug from "slug";
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
 
+/*
 export const addSetting = asyncHandler(async (req, res) => {
   const { appId, storeID, androidID, linkedInImage, facebookInImage, objects } =
     req.body;
@@ -56,27 +57,58 @@ export const addSetting = asyncHandler(async (req, res) => {
     });
   }
 });
+ */
+
+export const addSetting = asyncHandler(async (req, res) => {
+  const { objects } = req.body;
+  try {
+    if (!objects) {
+      return res.status(200).json({
+        status: 400,
+        message: "objects is required",
+      });
+    } else {
+      const data = await Settings.create({ objects });
+      return res.status(200).json({
+        data,
+        status: 200,
+        message: "setting Added",
+      });
+    }
+  } catch (error) {
+    return res.status(200).json({
+      error,
+      status: 500,
+      message: catchErr("addSetting", "Setting"),
+    });
+  }
+});
 
 export const getSetting = asyncHandler(async (req, res) => {
   const { setting_id } = req.params;
-  const data = await Settings.findById(setting_id);
-  const val = slug("i ♥ unicode hellow world,,,,,", "_");
 
   try {
+    const data = await Settings.findById(setting_id);
+
     if (!data) {
       return res.status(200).json({
-        status: 200,
+        status: 400,
         message: "No setting Found",
       });
     } else {
+      let input =
+        '[{key: \\"value\\", index: 1},{keyTwo: \\"valueTwo\\", index: 2}]';
+      let output = input.replace(/\\/g, "");
+      console.log(output);
       return res.status(200).json({
-        val,
         data,
+        output,
         status: 200,
         message: "Found Data",
       });
     }
   } catch (error) {
+    console.log(error);
     return res.status(200).json({
       error,
       status: 500,
@@ -156,3 +188,8 @@ export const getAllSetting = asyncHandler(async (_, res) => {
     });
   }
 });
+
+const val = [
+  { key: "value", index: 1 },
+  { keyTwo: "valueTwo", index: 2 },
+];

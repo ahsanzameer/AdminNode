@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import userThree from "../../images/user/user-03.png";
-import slugify from 'react-slugify';
+import slugify from "react-slugify";
 
 function AddSetting() {
   const [fieldData, setFieldData] = useState([
     {
-      key_name: '',
-      key_value: ''
-    }
+      key_name: "",
+      key_value: "",
+    },
   ]);
 
   const handleAddField = (e) => {
@@ -17,8 +17,8 @@ function AddSetting() {
     setFieldData((prev) => [
       ...prev,
       {
-        key_name: '',
-        key_value: ''
+        key_name: "",
+        key_value: "",
       },
     ]);
   };
@@ -36,7 +36,8 @@ function AddSetting() {
   };
   const handleBlur = (e, indx) => {
     const { name, value } = e.target;
-    const slugifiedValue = name === 'key_name' ? slugify(value, { delimiter: '_' }) : value;
+    const slugifiedValue =
+      name === "key_name" ? slugify(value, { delimiter: "_" }) : value;
     setFieldData((prev) =>
       prev.map((item, index) =>
         index === indx ? { ...item, [name]: slugifiedValue } : item
@@ -44,6 +45,10 @@ function AddSetting() {
     );
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(fieldData);
+  };
 
   return (
     <div className="w-full">
@@ -58,10 +63,12 @@ function AddSetting() {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
-
+                <form action="#" onSubmit={handleSubmit}>
                   {fieldData.map((item, indx) => (
-                    <div key={indx} className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                    <div
+                      key={indx}
+                      className="mb-5.5 flex flex-col gap-5.5 sm:flex-row"
+                    >
                       <div className="w-full sm:w-1/2">
                         <label
                           className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -102,20 +109,17 @@ function AddSetting() {
                       </div>
                     </div>
                   ))}
-           
-
 
                   <div className="flex justify-end gap-4.5">
-                    {
-                      fieldData?.length > 1 &&
+                    {fieldData?.length > 1 && (
                       <button
                         onClick={handleCancel}
                         className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      // type="submit"
+                        // type="submit"
                       >
                         Cancel
                       </button>
-                    }
+                    )}
                     <button
                       onClick={handleAddField}
                       className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
@@ -125,9 +129,7 @@ function AddSetting() {
                     </button>
                   </div>
 
-                  <button
-                    className="mt-5.5 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
-                  >
+                  <button className="mt-5.5 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                     Submit
                   </button>
                 </form>
@@ -137,7 +139,7 @@ function AddSetting() {
         </div>
       </DefaultLayout>
     </div>
-  )
+  );
 }
 
-export default AddSetting
+export default AddSetting;

@@ -9,6 +9,6 @@ const settingSchema = new Schema(
     linkedInImage: { type: String },
     facebookInImage: { type: String },
   },
-  { timestamps: true }
+  { versionKey: false, timestamps: true }
 );
 export default model("setting", settingSchema);

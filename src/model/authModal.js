@@ -6,7 +6,7 @@ const userSchema = new Schema(
     email: { type: String, unique: true },
     password: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export default model("User", userSchema);

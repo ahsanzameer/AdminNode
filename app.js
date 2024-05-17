@@ -4,6 +4,7 @@ import { authRoute, PackageRoute, settingRouter } from "./src/routes/index.js";
 import express, { json, urlencoded } from "express";
 import { DBcon } from "./src/configuration/config.js";
 import cors from "cors";
+import BP from "body-parser";
 
 DBcon();
 config();
@@ -12,7 +13,9 @@ const app = express();
 
 app.use(json());
 app.use(cors());
+app.use(BP.json());
 app.use(urlencoded({ extended: false }));
+app.use(BP.json({ type: "application/*+json" }));
 const port = process.env.PORT || 8010;
 
 app.use("/auth", authRoute);

@@ -9,7 +9,7 @@ const packageSchema = new Schema(
     packageCSVImportBoolean: { type: String },
     packageCsvImportNumber: { type: Number },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export default model("package", packageSchema);

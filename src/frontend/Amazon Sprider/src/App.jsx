@@ -19,7 +19,7 @@ import {
   ListPackage,
   EditPackage,
   AddSetting,
-  ListSetting
+  ListSetting,
 } from "./pages/user";
 
 const Router = () => {
