@@ -5,15 +5,13 @@ import Logo from "../../images/logo/logo.svg";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/authSlice";
 import { useLoginMutation } from "../../redux/actions/authAction";
 import DarkModeSwitcher from "../../components/Header/DarkModeSwitcher";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-
   const [email, setEmail] = useState("test@gmail.com");
   const [password, setPassword] = useState("12345678");
 
@@ -32,8 +30,8 @@ const SignIn = () => {
   const togglePassword = () => setShowPassword((prev) => !prev);
   const [loginApi, { isLoading }] = useLoginMutation();
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
       const response = await loginApi({ email, password });
       const { status, message, data } = response.data;
       if (status === 200) {

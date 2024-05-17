@@ -189,6 +189,30 @@ export const getAllSetting = asyncHandler(async (_, res) => {
   }
 });
 
+export const deleteSetting = asyncHandler(async (req, res) => {
+  const { delete_id } = req.body;
+  const data = await Settings.findByIdAndDelete(delete_id);
+  try {
+    if (!data) {
+      return res
+        .status(200)
+        .json({ status: 400, message: "Can not found this Setting" });
+    } else {
+      return res.status(200).json({
+        data,
+        status: 200,
+        message: "Successfuly deleted",
+      });
+    }
+  } catch (error) {
+    return res.status(200).json({
+      error,
+      status: 500,
+      message: catchErr("deleteSetting", "Settings"),
+    });
+  }
+});
+
 const val = [
   { key: "value", index: 1 },
   { keyTwo: "valueTwo", index: 2 },

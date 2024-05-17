@@ -2,12 +2,8 @@ import { Schema, model } from "mongoose";
 
 const settingSchema = new Schema(
   {
-    appId: { type: String },
     objects: { type: Object },
-    storeID: { type: String },
-    androidID: { type: String },
-    linkedInImage: { type: String },
-    facebookInImage: { type: String },
+    isDefault: { type: Number, default: 1 },
   },
   { versionKey: false, timestamps: true }
 );

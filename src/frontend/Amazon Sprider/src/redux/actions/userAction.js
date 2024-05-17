@@ -3,30 +3,30 @@ import { baseUrl } from "../../utils/urls";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/product` }),
   endpoints: (builder) => ({
     AddPackage: builder.mutation({
       query: (data) => ({
-        url: "product/addPackage",
+        url: "addPackage",
         method: "POST",
         body: data,
       }),
     }),
     GetPackage: builder.mutation({
       query: () => ({
-        url: "product/getPackage",
+        url: "getPackage",
         method: "GET",
       }),
     }),
     DeletePackage: builder.mutation({
       query: (id) => ({
-        url: `product/deletePackage/${id}`,
+        url: `deletePackage/${id}`,
         method: "DELETE",
       }),
     }),
     EditPackage: builder.mutation({
       query: (item) => ({
-        url: `product/editPackage/${item.id}`,
+        url: `editPackage/${item.id}`,
         method: "PATCH",
         body: item,
       }),

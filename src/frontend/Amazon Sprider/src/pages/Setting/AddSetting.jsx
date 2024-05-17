@@ -3,30 +3,63 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import userThree from "../../images/user/user-03.png";
 import slugify from "react-slugify";
+import { useDispatch } from "react-redux";
+import { useAddSettingApiMutation as useAdd } from "../../redux/actions/SettingAction";
+import { catchErr } from "../../utils/urls";
+import toast from "react-hot-toast";
 
 function AddSetting() {
+  const dispatch = useDispatch();
   const [keyName, setKeyName] = useState("");
   const [keyValue, setKeyValue] = useState("");
 
+  // const handleChange = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
 
+  //   setKeyName(name);
+  //   setKeyValue(value);
+  // };
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setKeyName(name)
-    setKeyValue(value)
+    const { name, value } = e.target;
+    if (name === "name") {
+      setKeyName(value);
+    } else if (name === "value") {
+      setKeyValue(value);
+    }
   };
-  const handleSubmit = (e) => {
+
+  const [AddSettingApi, { isLoading }] = useAdd();
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const sendData = {
+      name: keyName,
+      value: keyValue,
+      isDefault: 0,
+    };
+    try {
+      const response = await AddSettingApi(sendData);
+      const { status, message, data } = response.data;
+      console.log({ data });
+      if (status === 200) {
+        toast.success(message, { duration: 3000 });
+      } else if (status === 400) {
+        console.log("message", message);
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(catchErr, { duration: 3000 });
+    }
   };
 
   const handleClick = () => {
-    console.log('first',{
+    console.log("first", {
       name: keyName,
       value: keyValue,
-      isDefault: 0
-    })
-  }
+      isDefault: 0,
+    });
+  };
 
   return (
     <div className="w-full">
@@ -42,9 +75,7 @@ function AddSetting() {
               </div>
               <div className="p-7">
                 <form onSubmit={handleSubmit}>
-                  <div
-                    className="mb-5.5 flex flex-col gap-5.5 sm:flex-row"
-                  >
+                  <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -103,11 +134,12 @@ function AddSetting() {
                     </button>
                   </div> */}
 
-
-                  <button 
-                  onClick={handleClick}
-                  className="mt-5.5 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                    Save
+                  <button
+                    onClick={handleClick}
+                    disabled={isLoading}
+                    className="mt-5.5 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                  >
+                    {isLoading ? "Loading..." : "Save"}
                   </button>
                 </form>
               </div>
