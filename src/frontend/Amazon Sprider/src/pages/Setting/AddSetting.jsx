@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 function AddSetting() {
   const dispatch = useDispatch();
-  const [keyName, setKeyName] = useState("");
+  const [key_Name, setKeyName] = useState("");
   const [keyValue, setKeyValue] = useState("");
 
   // const handleChange = (e) => {
@@ -33,10 +33,14 @@ function AddSetting() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AddSettingApi({ keyName, keyValue });
-      const { status, message, data } = response.data;
-      console.log({ data });
+      const keyName = slugify(key_Name, { delimiter: "_" });
+      const isDefault = 0;
+      const response = await AddSettingApi({ keyName, keyValue, isDefault });
+      const { status, message } = response.data;
+
       if (status === 200) {
+        setKeyName("");
+        setKeyValue("");
         toast.success(message, { duration: 3000 });
       } else if (status === 400) {
         console.log("message", message);
@@ -77,7 +81,7 @@ function AddSetting() {
                           id="name"
                           className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           onChange={handleChange}
-                          value={keyName}
+                          value={key_Name}
                           placeholder="Enter your key"
                         />
                       </div>

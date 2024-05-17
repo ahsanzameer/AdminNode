@@ -28,7 +28,6 @@ function ListSetting() {
   const dispatch = useDispatch();
 
   const getSettingData = useSelector((state) => state.getSetting.value);
-  console.log("getSettingData", getSettingData);
   const [open3, setOpen3] = useState(false);
   const handleClose3 = () => setOpen3(false);
   const [data, setData] = useState({});
@@ -47,6 +46,10 @@ function ListSetting() {
   const handleClick = (event, rowData) => {
     setAnchorEl(event.currentTarget);
     setData(rowData);
+  };
+
+  const onDeleteSetting = () => {
+    console.log("first");
   };
 
   const [getSettingApi, { isLoading }] = useGetSettingApiMutation();
@@ -180,7 +183,6 @@ function ListSetting() {
                       <MenuItem onClick={() => handleClose("edit", row)}>
                         Edit
                       </MenuItem>
-                      {}
                       <MenuItem onClick={() => handleClose("delete", row)}>
                         Delete
                       </MenuItem>
@@ -215,7 +217,7 @@ function ListSetting() {
           </DialogContentText>
         </DialogContent>
         <DialogActions className="dark:bg-boxdark-2 dark:text-bodydark">
-          <Button>Yes</Button>
+          <Button onClick={onDeleteSetting}>Yes</Button>
           <Button onClick={onDissmissDeleteModal} autoFocus>
             No
           </Button>
