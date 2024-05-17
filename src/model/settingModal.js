@@ -2,7 +2,8 @@ import { Schema, model } from "mongoose";
 
 const settingSchema = new Schema(
   {
-    objects: { type: Object },
+    keyName: { type: String },
+    keyValue: { type: String },
     isDefault: { type: Number, default: 1 },
   },
   { versionKey: false, timestamps: true }

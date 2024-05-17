@@ -60,15 +60,15 @@ export const addSetting = asyncHandler(async (req, res) => {
  */
 
 export const addSetting = asyncHandler(async (req, res) => {
-  const { objects } = req.body;
+  const { keyName, keyValue } = req.body;
   try {
-    if (!objects) {
+    if ((!keyName, !keyValue)) {
       return res.status(200).json({
         status: 400,
-        message: "objects is required",
+        message: `${!keyName ? "keyName" : "keyValue"} is required `,
       });
     } else {
-      const data = await Settings.create({ objects });
+      const data = await Settings.create({ keyName, keyValue });
       return res.status(200).json({
         data,
         status: 200,
@@ -96,14 +96,9 @@ export const getSetting = asyncHandler(async (req, res) => {
         message: "No setting Found",
       });
     } else {
-      let input =
-        '[{key: \\"value\\", index: 1},{keyTwo: \\"valueTwo\\", index: 2}]';
-      let output = input.replace(/\\/g, "");
-      console.log(output);
       return res.status(200).json({
-        data,
-        output,
         status: 200,
+        object: data,
         message: "Found Data",
       });
     }
@@ -176,7 +171,7 @@ export const getAllSetting = asyncHandler(async (_, res) => {
   try {
     const data = await Settings.find();
     return res.status(200).json({
-      data,
+      object: data,
       status: 200,
       message: "Found Data",
     });

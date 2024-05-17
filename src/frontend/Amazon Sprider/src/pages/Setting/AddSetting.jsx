@@ -32,13 +32,8 @@ function AddSetting() {
   const [AddSettingApi, { isLoading }] = useAdd();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const sendData = {
-      name: keyName,
-      value: keyValue,
-      isDefault: 0,
-    };
     try {
-      const response = await AddSettingApi(sendData);
+      const response = await AddSettingApi({ keyName, keyValue });
       const { status, message, data } = response.data;
       console.log({ data });
       if (status === 200) {
@@ -51,14 +46,6 @@ function AddSetting() {
       console.log(error);
       toast.error(catchErr, { duration: 3000 });
     }
-  };
-
-  const handleClick = () => {
-    console.log("first", {
-      name: keyName,
-      value: keyValue,
-      isDefault: 0,
-    });
   };
 
   return (
@@ -135,7 +122,6 @@ function AddSetting() {
                   </div> */}
 
                   <button
-                    onClick={handleClick}
                     disabled={isLoading}
                     className="mt-5.5 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
                   >

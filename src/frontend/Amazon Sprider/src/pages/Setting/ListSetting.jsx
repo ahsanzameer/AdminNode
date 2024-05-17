@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import ViewPackageModal from "../../components/Modals/ViewPackageModal";
 import EditSettingModal from "../../components/Modals/EditSettingModal";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fade,
+  Menu,
+  MenuItem,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { useGetSettingApiMutation } from "../../redux/actions/SettingAction";
+import { setSetting } from "../../redux/slices/getSettingSlice";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 function ListSetting() {
+  const dispatch = useDispatch();
+
+  const getSettingData = useSelector((state) => state.getSetting.value);
+  console.log("getSettingData", getSettingData);
   const [open3, setOpen3] = useState(false);
   const handleClose3 = () => setOpen3(false);
   const [data, setData] = useState({});
@@ -21,7 +42,6 @@ function ListSetting() {
   };
 
   const handleClose = (type, emnt) => {
-
     setAnchorEl(null);
   };
   const handleClick = (event, rowData) => {
@@ -29,9 +49,29 @@ function ListSetting() {
     setData(rowData);
   };
 
+  const [getSettingApi, { isLoading }] = useGetSettingApiMutation();
+  const handleGetSettingApi = async () => {
+    try {
+      const response = await getSettingApi();
+      const { status, message, object } = response.data;
+      console.log("object", object);
+      if (status === 200) {
+        dispatch(setSetting(object));
+      } else if (message) {
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error, { duration: 3000 });
+    }
+  };
+
+  useEffect(() => {
+    handleGetSettingApi();
+  }, []);
+
   return (
     <div className="w-full">
-
       <DefaultLayout>
         <TableContainer
           component={Paper}
@@ -53,7 +93,7 @@ function ListSetting() {
                   className="text-title-md font-bold text-black dark:text-white"
                   align="center"
                 >
-                  isDefault
+                  Default
                 </TableCell>
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
@@ -65,7 +105,7 @@ function ListSetting() {
             </TableHead>
 
             <TableBody>
-              {DATA.map((row, index) => {
+              {getSettingData.map((row, index) => {
                 return (
                   <TableRow
                     key={index}
@@ -82,19 +122,19 @@ function ListSetting() {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {row?.key_value}
+                      {row?.keyName}
                     </TableCell>
                     <TableCell
                       align="center"
                       className="text-title-md font-bold text-black dark:text-white"
                     >
-                      {row?.key_name}
+                      {row?.keyValue}
                     </TableCell>
                     <TableCell
                       align="center"
                       className="text-title-md font-bold text-black dark:text-white"
                     >
-                      {row?.isDefault == 1 ? 'Yes' : 'No'}
+                      {row?.isDefault == 1 ? "Yes" : "No"}
                     </TableCell>
 
                     <TableCell
@@ -115,8 +155,7 @@ function ListSetting() {
                       >
                         Edit
                       </button>
-                      {
-                        row?.isDefault == 0 &&
+                      {row?.isDefault == 0 && (
                         <button
                           onClick={() => {
                             setDeleteModal(true);
@@ -126,7 +165,7 @@ function ListSetting() {
                         >
                           Delete
                         </button>
-                      }
+                      )}
                     </TableCell>
                     <Menu
                       id="fade-menu"
@@ -141,7 +180,7 @@ function ListSetting() {
                       <MenuItem onClick={() => handleClose("edit", row)}>
                         Edit
                       </MenuItem>
-                      { }
+                      {}
                       <MenuItem onClick={() => handleClose("delete", row)}>
                         Delete
                       </MenuItem>
@@ -153,8 +192,6 @@ function ListSetting() {
           </Table>
         </TableContainer>
       </DefaultLayout>
-
-
 
       <EditSettingModal open={open3} onClose={handleClose3} data={data} />
       <Dialog
@@ -178,7 +215,7 @@ function ListSetting() {
           </DialogContentText>
         </DialogContent>
         <DialogActions className="dark:bg-boxdark-2 dark:text-bodydark">
-          <Button >Yes</Button>
+          <Button>Yes</Button>
           <Button onClick={onDissmissDeleteModal} autoFocus>
             No
           </Button>

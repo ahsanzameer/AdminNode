@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const settingApi = createApi({
   reducerPath: "settingApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/setting` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/setting/` }),
   endpoints: (builder) => ({
     AddSettingApi: builder.mutation({
       query: (data) => ({
