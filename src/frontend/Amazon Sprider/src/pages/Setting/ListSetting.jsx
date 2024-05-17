@@ -3,7 +3,7 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import ViewPackageModal from "../../components/Modals/ViewPackageModal";
 import EditSettingModal from "../../components/Modals/EditSettingModal";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 function ListSetting() {
   const [open3, setOpen3] = useState(false);
@@ -16,9 +16,99 @@ function ListSetting() {
   };
 
   return (
-<div className="w-full">
+    <div className="w-full">
+
       <DefaultLayout>
-        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
+        <TableContainer
+          component={Paper}
+          className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+        >
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell className="text-title-md font-bold text-black dark:text-white">
+                  URL
+                </TableCell>
+                <TableCell
+                  className="text-title-md font-bold text-black dark:text-white"
+                  align="center"
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  className="text-title-md font-bold text-black dark:text-white"
+                  align="center"
+                >
+                  Actions
+                </TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {DATA.map((row, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      className="text-title-md font-bold text-black dark:text-white"
+                      component="th"
+                      scope="row"
+                      style={{
+                        maxWidth: "150px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {row?.key_value}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      
+                      className="text-title-md font-bold text-black dark:text-white"
+                    >
+                      {row?.key_name}
+                    </TableCell>
+
+                    <TableCell
+                      align="center"
+                      className="text-title-md font-bold text-black dark:text-white"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div className="flex flex-row justify-end p-4 space-x-2 sm:w-1/5" style={{ alignItems: 'center' }}>
+                        <button
+                          onClick={() => {
+                            setOpen3(true);
+                            setData(row);
+                          }}
+                          className="h-9 flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setData(row);
+                          }}
+                          className="h-9 flex justify-center rounded bg-danger py-1.5 px-4 font-medium text-white hover:bg-opacity-90"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* <div className="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
           <Breadcrumb pageName="List Settings" show />
 
           {DATA.map((item, index) => (
@@ -34,7 +124,7 @@ function ListSetting() {
                   {item.key_value}
                 </label>
               </div>
-              <div className="flex flex-row justify-end p-4 space-x-2 sm:w-1/5" style={{alignItems: 'center'}}>
+              <div className="flex flex-row justify-end p-4 space-x-2 sm:w-1/5" style={{ alignItems: 'center' }}>
                 <button
                   onClick={() => {
                     setOpen3(true);
@@ -56,37 +146,39 @@ function ListSetting() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </DefaultLayout>
+
+
 
       <EditSettingModal open={open3} onClose={handleClose3} data={data} />
       <Dialog
-          open={deleteModal}
-          onClose={onDissmissDeleteModal}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+        open={deleteModal}
+        onClose={onDissmissDeleteModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle
+          id="alert-dialog-title"
+          className="dark:bg-boxdark-2 dark:text-bodydark"
         >
-          <DialogTitle
-            id="alert-dialog-title"
+          {"Delete Field"}
+        </DialogTitle>
+        <DialogContent className="dark:bg-boxdark-2 dark:text-bodydark">
+          <DialogContentText
+            id="alert-dialog-description"
             className="dark:bg-boxdark-2 dark:text-bodydark"
           >
-            {"Delete Field"}
-          </DialogTitle>
-          <DialogContent className="dark:bg-boxdark-2 dark:text-bodydark">
-            <DialogContentText
-              id="alert-dialog-description"
-              className="dark:bg-boxdark-2 dark:text-bodydark"
-            >
-              Are you sure you want to delete this field?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions className="dark:bg-boxdark-2 dark:text-bodydark">
-            <Button >Yes</Button>
-            <Button onClick={onDissmissDeleteModal} autoFocus>
-              No
-            </Button>
-          </DialogActions>
-        </Dialog>
+            Are you sure you want to delete this field?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className="dark:bg-boxdark-2 dark:text-bodydark">
+          <Button >Yes</Button>
+          <Button onClick={onDissmissDeleteModal} autoFocus>
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
