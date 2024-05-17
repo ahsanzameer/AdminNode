@@ -3,7 +3,9 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import ViewPackageModal from "../../components/Modals/ViewPackageModal";
 import EditSettingModal from "../../components/Modals/EditSettingModal";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 function ListSetting() {
   const [open3, setOpen3] = useState(false);
@@ -11,8 +13,20 @@ function ListSetting() {
   const [data, setData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const onDissmissDeleteModal = () => {
     setDeleteModal(false);
+  };
+
+  const handleClose = (type, emnt) => {
+
+    setAnchorEl(null);
+  };
+  const handleClick = (event, rowData) => {
+    setAnchorEl(event.currentTarget);
+    setData(rowData);
   };
 
   return (
@@ -34,6 +48,12 @@ function ListSetting() {
                   align="center"
                 >
                   Name
+                </TableCell>
+                <TableCell
+                  className="text-title-md font-bold text-black dark:text-white"
+                  align="center"
+                >
+                  isDefault
                 </TableCell>
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
@@ -66,10 +86,15 @@ function ListSetting() {
                     </TableCell>
                     <TableCell
                       align="center"
-                      
                       className="text-title-md font-bold text-black dark:text-white"
                     >
                       {row?.key_name}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="text-title-md font-bold text-black dark:text-white"
+                    >
+                      {row?.isDefault == 1 ? 'Yes' : 'No'}
                     </TableCell>
 
                     <TableCell
@@ -81,72 +106,52 @@ function ListSetting() {
                         alignItems: "center",
                       }}
                     >
-                      <div className="flex flex-row justify-end p-4 space-x-2 sm:w-1/5" style={{ alignItems: 'center' }}>
-                        <button
-                          onClick={() => {
-                            setOpen3(true);
-                            setData(row);
-                          }}
-                          className="h-9 flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90"
-                        >
-                          Edit
-                        </button>
+                      <button
+                        onClick={() => {
+                          setOpen3(true);
+                          setData(row);
+                        }}
+                        className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
+                      >
+                        Edit
+                      </button>
+                      {
+                        row?.isDefault == 0 &&
                         <button
                           onClick={() => {
                             setDeleteModal(true);
                             setData(row);
                           }}
-                          className="h-9 flex justify-center rounded bg-danger py-1.5 px-4 font-medium text-white hover:bg-opacity-90"
+                          className="ml-2 h-8.5 flex justify-center rounded bg-danger py-1.5 px-4 font-medium text-white hover:bg-opacity-90"
                         >
                           Delete
                         </button>
-                      </div>
+                      }
                     </TableCell>
+                    <Menu
+                      id="fade-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "fade-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Fade}
+                    >
+                      <MenuItem onClick={() => handleClose("edit", row)}>
+                        Edit
+                      </MenuItem>
+                      { }
+                      <MenuItem onClick={() => handleClose("delete", row)}>
+                        Delete
+                      </MenuItem>
+                    </Menu>
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <div className="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
-          <Breadcrumb pageName="List Settings" show />
-
-          {DATA.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col sm:flex-row h-auto sm:h-30 w-full mb-5 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-            >
-              <div className="flex flex-col justify-center p-4 sm:w-4/5">
-                <label className="mb-2.5 block text-black dark:text-white font-extrabold">
-                  {item.key_name}
-                </label>
-                <label className="mb-2.5 block text-black dark:text-white">
-                  {item.key_value}
-                </label>
-              </div>
-              <div className="flex flex-row justify-end p-4 space-x-2 sm:w-1/5" style={{ alignItems: 'center' }}>
-                <button
-                  onClick={() => {
-                    setOpen3(true);
-                    setData(item);
-                  }}
-                  className="h-9 flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    setDeleteModal(true);
-                    setData(item);
-                  }}
-                  className="h-9 flex justify-center rounded bg-danger py-1.5 px-4 font-medium text-white hover:bg-opacity-90"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div> */}
       </DefaultLayout>
 
 
@@ -189,9 +194,11 @@ const DATA = [
   {
     key_name: "google_url",
     key_value: "https://www.google.com/",
+    isDefault: 1,
   },
   {
     key_name: "facebook_url",
     key_value: "https://www.facebook.com/",
+    isDefault: 0,
   },
 ];

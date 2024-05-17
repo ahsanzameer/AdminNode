@@ -50,6 +50,7 @@ function EditSettingModal(props) {
                                     Key
                                 </label>
                                 <input
+                                disabled={data?.isDefault == 1? true : false}
                                     defaultValue={data?.key_name}
                                     //   value={value.packageAmazonImportNumber}
                                     name="key"
