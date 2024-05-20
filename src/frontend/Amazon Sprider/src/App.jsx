@@ -20,6 +20,8 @@ import {
   EditPackage,
   AddSetting,
   ListSetting,
+  StoreDetails,
+  Stores
 } from "./pages/user";
 
 const Router = () => {
@@ -99,6 +101,24 @@ const Router = () => {
               <>
                 <PageTitle title="List Setting | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <ListSetting />
+              </>
+            }
+          />
+          <Route
+            path="/stores"
+            element={
+              <>
+                <PageTitle title="Stores | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <Stores />
+              </>
+            }
+          />
+          <Route
+            path="/storedetails"
+            element={
+              <>
+                <PageTitle title="Store Detail | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <StoreDetails />
               </>
             }
           />

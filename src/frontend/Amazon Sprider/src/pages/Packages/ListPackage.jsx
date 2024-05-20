@@ -34,7 +34,7 @@ function ListPackage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const getProductData = useSelector((state) => state.getPackages.value);
-  console.log({ getProductData });
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [data, setData] = useState(null);
@@ -60,7 +60,6 @@ function ListPackage() {
     }
     setAnchorEl(null);
   };
-
   const onDissmissDeleteModal = () => {
     setDeleteModal(false);
   };
