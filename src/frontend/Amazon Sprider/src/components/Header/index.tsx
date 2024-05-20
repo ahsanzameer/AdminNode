@@ -1,5 +1,5 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import LogoIcon from "../../images/logo/logo-icon.svg";

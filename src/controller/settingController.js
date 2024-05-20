@@ -114,42 +114,20 @@ export const getSetting = asyncHandler(async (req, res) => {
 
 export const editSetting = asyncHandler(async (req, res) => {
   const { setting_id } = req.params;
-  const { appId, storeID, androidID, linkedInImage, facebookInImage } =
-    req.body;
+  const { keyName, keyValue } = req.body;
   const data = await Settings.findByIdAndUpdate(
     setting_id,
     {
-      appId,
-      storeID,
-      androidID,
-      linkedInImage,
-      facebookInImage,
+      keyName,
+      keyValue,
     },
     { new: true }
   );
   try {
-    if (
-      !appId ||
-      !storeID ||
-      !androidID ||
-      !linkedInImage ||
-      !facebookInImage
-    ) {
+    if (!keyName || !keyValue) {
       return res.status(200).json({
         status: 400,
-        message: `${
-          !appId
-            ? "appId"
-            : !storeID
-            ? "storeID"
-            : !androidID
-            ? "androidID"
-            : !linkedInImage
-            ? "linkedInImage"
-            : !facebookInImage
-            ? "facebookInImage"
-            : ""
-        } is required`,
+        message: `${!keyName ? "keyName" : "keyValue"} is required `,
       });
     } else if (!data) {
       return res.status(200).json({ status: 400, message: "No data found" });
@@ -185,8 +163,10 @@ export const getAllSetting = asyncHandler(async (_, res) => {
 });
 
 export const deleteSetting = asyncHandler(async (req, res) => {
-  const { delete_id } = req.body;
+  const { delete_id } = req.params;
+
   const data = await Settings.findByIdAndDelete(delete_id);
+  console.log({ data, delete_id });
   try {
     if (!data) {
       return res

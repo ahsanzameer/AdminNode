@@ -19,10 +19,14 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useGetSettingApiMutation } from "../../redux/actions/SettingAction";
+import {
+  useDeleteSettingApiMutation,
+  useGetSettingApiMutation,
+} from "../../redux/actions/SettingAction";
 import { setSetting } from "../../redux/slices/getSettingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { Loader } from "../../components";
 
 function ListSetting() {
   const dispatch = useDispatch();
@@ -48,8 +52,25 @@ function ListSetting() {
     setData(rowData);
   };
 
-  const onDeleteSetting = () => {
-    console.log("first");
+  const [deleteSetting] = useDeleteSettingApiMutation();
+  const onDeleteSetting = async () => {
+    console.log("data._id", data._id);
+
+    try {
+      const delete_id = data._id;
+      const response = await deleteSetting(delete_id);
+      const { status, message } = response.data;
+      if (status === 200) {
+        handleGetSettingApi();
+        toast.success(message, { duration: 3000 });
+      } else if (status === 400) {
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error, { duration: 3000 });
+    }
+    setDeleteModal(false);
   };
 
   const [getSettingApi, { isLoading }] = useGetSettingApiMutation();
@@ -73,7 +94,13 @@ function ListSetting() {
     handleGetSettingApi();
   }, []);
 
-  return (
+  const handleEdit = (ele) => {
+    setOpen3(true);
+    setData(ele);
+  };
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="w-full">
       <DefaultLayout>
         <TableContainer
@@ -150,10 +177,7 @@ function ListSetting() {
                       }}
                     >
                       <button
-                        onClick={() => {
-                          setOpen3(true);
-                          setData(row);
-                        }}
+                        onClick={() => handleEdit(row)}
                         className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
                       >
                         Edit
@@ -195,7 +219,12 @@ function ListSetting() {
         </TableContainer>
       </DefaultLayout>
 
-      <EditSettingModal open={open3} onClose={handleClose3} data={data} />
+      <EditSettingModal
+        handleGetData={handleGetSettingApi}
+        open={open3}
+        onClose={handleClose3}
+        data={data}
+      />
       <Dialog
         open={deleteModal}
         onClose={onDissmissDeleteModal}
