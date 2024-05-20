@@ -187,8 +187,3 @@ export const deleteSetting = asyncHandler(async (req, res) => {
     });
   }
 });
-
-const val = [
-  { key: "value", index: 1 },
-  { keyTwo: "valueTwo", index: 2 },
-];
