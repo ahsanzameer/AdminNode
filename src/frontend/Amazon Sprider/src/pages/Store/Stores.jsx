@@ -18,10 +18,10 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import TableContainer from "@mui/material/TableContainer";
 import { useGetStoreMutation } from "@/redux/actions/storeAction";
 
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 // import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
 // import DirectionsIcon from '@mui/icons-material/Directions';
@@ -115,12 +115,12 @@ const Stores = () => {
     return pageNumbers;
   };
   const handleSearch = () => {
-    const filteredData = finalStoreData.filter(store =>
+    const filteredData = finalStoreData.filter((store) =>
       store.storeName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setStoreData(filteredData);
   };
-console.log('filteredData', storeData)
+  console.log("filteredData", storeData);
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -137,30 +137,34 @@ console.log('filteredData', storeData)
                 <Paper
                   className="bg-white dark:bg-boxdark-2 dark:text-bodydark text-black flex items-center overflow-hidden mt-4 sm:mt-0"
                   component="form"
-                  onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSearch();
+                  }}
                 >
-                  {
-                    !searchQuery &&
-                    <IconButton sx={{ p: '10px' }} aria-label="search">
+                  {!searchQuery && (
+                    <IconButton sx={{ p: "10px" }} aria-label="search">
                       <ImSearch color="gray" size={15} />
                     </IconButton>
-                  }
+                  )}
                   <InputBase
                     style={{
-                      margin: searchQuery ? '0 0 0 14px' : '0 0 0 0',
+                      margin: searchQuery ? "0 0 0 14px" : "0 0 0 0",
                     }}
                     className="font-bold text-black dark:text-white flex-1"
                     placeholder="Search by name"
-                    inputProps={{ 'aria-label': 'search store' }}
+                    inputProps={{ "aria-label": "search store" }}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  {
-                    searchQuery &&
-                    <IconButton aria-label="search" onClick={() => (setStoreData(null), setSearchQuery(''))}>
+                  {searchQuery && (
+                    <IconButton
+                      aria-label="search"
+                      onClick={() => (setStoreData(null), setSearchQuery(""))}
+                    >
                       <RxCross2 color="gray" size={15} />
                     </IconButton>
-                  }
+                  )}
                   <button
                     className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
                     type="submit"
@@ -173,88 +177,89 @@ console.log('filteredData', storeData)
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <EnhancedTableHead />
                   <TableBody>
-                    {(storeData ? storeData : finalStoreData).map((row, index) => {
-                      return (
-                        <TableRow key={index}>
-                          <TableCell className="text-title-md font-bold text-black dark:text-white">
-                            {row.storeName}
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            align="center"
-                          >
-                            {row.productCount}
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            align="center"
-                          >
-                            {/* {row.package} */}
-                            bronze
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <button className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90">
-                              View
-                            </button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                    {(storeData ? storeData : finalStoreData).map(
+                      (row, index) => {
+                        return (
+                          <TableRow key={index}>
+                            <TableCell className="text-title-md font-bold text-black dark:text-white">
+                              {row.storeName}
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              align="center"
+                            >
+                              {row.productCount}
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              align="center"
+                            >
+                              {/* {row.package} */}
+                              bronze
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <button className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90">
+                                View
+                              </button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )}
                   </TableBody>
                 </Table>
-                {
-                  !searchQuery &&
-                <div className="flex justify-end h-12 bg-white dark:border-strokedark dark:bg-boxdark p-2 sm:p-4">
-                  <div
-                    className="flex items-center space-x-2 sm:space-x-4 bg-white dark:bg-boxdark px-2 sm:px-4 rounded-md overflow-x-auto"
-                    style={{
-                      overflowX: "auto",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
-                    }}
-                  >
-                    <Pagination>
-                      <PaginationContent>
-                        {currentPage !== 1 && (
-                          <PaginationItem>
-                            <PaginationPrevious
-                              href="#"
-                              onClick={() => setCurrentPage(currentPage - 1)}
-                            />
-                          </PaginationItem>
-                        )}
+                {!searchQuery && (
+                  <div className="flex justify-end h-12 bg-white dark:border-strokedark dark:bg-boxdark p-2 sm:p-4">
+                    <div
+                      className="flex items-center space-x-2 sm:space-x-4 bg-white dark:bg-boxdark px-2 sm:px-4 rounded-md overflow-x-auto"
+                      style={{
+                        overflowX: "auto",
+                        scrollbarWidth: "none",
+                        msOverflowStyle: "none",
+                      }}
+                    >
+                      <Pagination>
+                        <PaginationContent>
+                          {currentPage !== 1 && (
+                            <PaginationItem>
+                              <PaginationPrevious
+                                href="#"
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                              />
+                            </PaginationItem>
+                          )}
 
-                        {generatePageNumbers().map((page, index) => (
-                          <PaginationItem
-                            key={index}
-                            isActive={currentPage === page}
-                            onClick={() =>
-                              typeof page === "number" && setCurrentPage(page)
-                            }
-                          >
-                            <PaginationLink href="#">{page}</PaginationLink>
-                          </PaginationItem>
-                        ))}
-                        {currentPage !== totalPages && (
-                          <PaginationItem>
-                            <PaginationNext
-                              href="#"
-                              onClick={() => setCurrentPage(currentPage + 1)}
-                            />
-                          </PaginationItem>
-                        )}
-                      </PaginationContent>
-                    </Pagination>
+                          {generatePageNumbers().map((page, index) => (
+                            <PaginationItem
+                              key={index}
+                              isActive={currentPage === page}
+                              onClick={() =>
+                                typeof page === "number" && setCurrentPage(page)
+                              }
+                            >
+                              <PaginationLink href="#">{page}</PaginationLink>
+                            </PaginationItem>
+                          ))}
+                          {currentPage !== totalPages && (
+                            <PaginationItem>
+                              <PaginationNext
+                                href="#"
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                              />
+                            </PaginationItem>
+                          )}
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
                   </div>
-                </div>
-                }
+                )}
               </TableContainer>
             </div>
           </div>

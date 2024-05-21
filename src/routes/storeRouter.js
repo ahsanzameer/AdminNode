@@ -10,6 +10,6 @@ const storeRoute = Router();
 
 storeRoute.post("/addStore", addStore);
 storeRoute.get("/getStore/:page", getStore);
-storeRoute.get("/getSingleStore/:id", getSingleStore);
+storeRoute.get("/getSingleStore/:page/:id", getSingleStore);
 
 export default storeRoute;
