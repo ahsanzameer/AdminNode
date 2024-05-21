@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import DefaultLayout from "../../layout/DefaultLayout";
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import {
   Pagination,
@@ -17,19 +17,22 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 import { useDispatch, useSelector } from "react-redux";
 
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 // import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
 // import DirectionsIcon from '@mui/icons-material/Directions';
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
 import Logo from "../../images/cards/cards-01.png";
+import { useLocation } from "react-router-dom";
+import { catchErr } from "@/utils/urls";
+import { useGetSingleStoreMutation } from "@/redux/actions/storeAction";
 
 function EnhancedTableHead() {
   return (
@@ -38,13 +41,22 @@ function EnhancedTableHead() {
         <TableCell className="text-title-md font-bold text-black dark:text-white">
           Product Images
         </TableCell>
-        <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
+        <TableCell
+          className="text-title-md font-bold text-black dark:text-white"
+          align="center"
+        >
           Product name
         </TableCell>
-        <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
+        <TableCell
+          className="text-title-md font-bold text-black dark:text-white"
+          align="center"
+        >
           Link
         </TableCell>
-        <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
+        <TableCell
+          className="text-title-md font-bold text-black dark:text-white"
+          align="center"
+        >
           Price
         </TableCell>
       </TableRow>
@@ -52,15 +64,17 @@ function EnhancedTableHead() {
   );
 }
 
-function StoreDetails() {
-  const dispatch = useDispatch();
+const StoreDetails = () => {
+  const location = useLocation();
+  const { index, id } = location.state;
   const [currentPage, setCurrentPage] = useState(DATA.current_page_no);
   const [totalPages, setTotalPages] = useState(DATA.total_pages);
   const [storeData, setStoreData] = useState(DATA.data);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [finalStoreData, setFinalStoreData] = useState([]);
+  // console.log("final Data", finalStoreData[index].products);
   const handleSearch = () => {
-    const filteredData = DATA.data.filter(store =>
+    const filteredData = DATA.data.filter((store) =>
       store.product_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setStoreData(filteredData);
@@ -92,43 +106,75 @@ function StoreDetails() {
     return pageNumbers;
   };
 
+  useEffect(() => {
+    handleStoreDetail();
+  }, [currentPage]);
+
+  const [getSingleStoreApi, { isLoading }] = useGetSingleStoreMutation();
+  const handleStoreDetail = async () => {
+    try {
+      const sendata = { id, page: 1 };
+      const response = await getSingleStoreApi(sendata);
+      const { status, message, data, currentPageNum, totalPage } =
+        response?.data;
+      if (status === 200) {
+        setFinalStoreData(data);
+        setCurrentPage(currentPageNum);
+        setTotalPages(totalPage);
+      } else if (status === 400) {
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(catchErr, { duration: 3000 });
+    }
+  };
   return (
     <div className="w-full">
       <DefaultLayout>
         <div className="grid grid-cols-1 gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-
             <div className="flex flex-col sm:flex-row justify-between border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-bold text-black dark:text-white">Developer Store</h3>
-              <h3 className="font-bold text-black dark:text-white">Total Products: {storeData.length}</h3>
+              <h3 className="font-bold text-black dark:text-white">
+                Developer Store
+              </h3>
+              <h3 className="font-bold text-black dark:text-white">
+                Total Products: {storeData.length}
+              </h3>
 
               <Paper
                 className="bg-white dark:bg-boxdark-2 dark:text-bodydark text-black flex items-center overflow-hidden mt-4 sm:mt-0"
                 component="form"
-                onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSearch();
+                }}
               >
-                {
-                  !searchQuery &&
-                  <IconButton sx={{ p: '10px' }} aria-label="search">
+                {!searchQuery && (
+                  <IconButton sx={{ p: "10px" }} aria-label="search">
                     <ImSearch color="gray" size={15} />
                   </IconButton>
-                }
+                )}
                 <InputBase
                   style={{
-                    margin: searchQuery ? '0 0 0 14px' : '0 0 0 0',
+                    margin: searchQuery ? "0 0 0 14px" : "0 0 0 0",
                   }}
                   className="font-bold text-black dark:text-white flex-1"
                   placeholder="Search by name"
-                  inputProps={{ 'aria-label': 'search store' }}
+                  inputProps={{ "aria-label": "search store" }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                {
-                  searchQuery &&
-                  <IconButton aria-label="search" onClick={() => (setStoreData(DATA.data), setSearchQuery(''))}>
+                {searchQuery && (
+                  <IconButton
+                    aria-label="search"
+                    onClick={() => (
+                      setStoreData(DATA.data), setSearchQuery("")
+                    )}
+                  >
                     <RxCross2 color="gray" size={15} />
                   </IconButton>
-                }
+                )}
                 <button
                   className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
                   type="submit"
@@ -138,7 +184,6 @@ function StoreDetails() {
               </Paper>
             </div>
 
-
             <TableContainer className="rounded-sm bg-white dark:border-strokedark dark:bg-boxdark">
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <EnhancedTableHead />
@@ -147,35 +192,64 @@ function StoreDetails() {
                     <TableRow key={row.id}>
                       <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
                         <div className="flex flex-1">
-                          {
-                            row?.image_url?.length > 0 ?
-                              <div style={{ height: '30px', width: '40px', overflow: 'hidden' }}>
-                                <img style={{ height: '100%', width: '100%' }} src={row?.image_url[0]?.img} alt="Product image" />
-                              </div>
-                              :
-                              '-'
-                          }
+                          {row?.image_url?.length > 0 ? (
+                            <div
+                              style={{
+                                height: "30px",
+                                width: "40px",
+                                overflow: "hidden",
+                              }}
+                            >
+                              <img
+                                style={{ height: "100%", width: "100%" }}
+                                src={row?.image_url[0]?.img}
+                                alt="Product image"
+                              />
+                            </div>
+                          ) : (
+                            "-"
+                          )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
+                      <TableCell
+                        className="text-title-md font-bold text-black dark:text-white"
+                        align="center"
+                      >
                         {row.product_name}
                       </TableCell>
-                      <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
-                        <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                      <TableCell
+                        className="text-title-md font-bold text-black dark:text-white"
+                        align="center"
+                      >
+                        <a
+                          href={row.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline"
+                        >
                           {row.link}
                         </a>
                       </TableCell>
-                      <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
+                      <TableCell
+                        className="text-title-md font-bold text-black dark:text-white"
+                        align="center"
+                      >
                         {row.price}
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
-              {
-                !searchQuery &&
+              {!searchQuery && (
                 <div className="flex justify-end h-12 bg-white dark:border-strokedark dark:bg-boxdark p-2 sm:p-4">
-                  <div className="flex items-center space-x-2 sm:space-x-4 bg-white dark:bg-boxdark px-2 sm:px-4 rounded-md overflow-x-auto" style={{ overflowX: 'auto', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+                  <div
+                    className="flex items-center space-x-2 sm:space-x-4 bg-white dark:bg-boxdark px-2 sm:px-4 rounded-md overflow-x-auto"
+                    style={{
+                      overflowX: "auto",
+                      scrollbarWidth: "none",
+                      msOverflowStyle: "none",
+                    }}
+                  >
                     <Pagination>
                       <PaginationContent>
                         <PaginationItem>
@@ -186,7 +260,13 @@ function StoreDetails() {
                           />
                         </PaginationItem>
                         {generatePageNumbers().map((page, index) => (
-                          <PaginationItem key={index} isActive={currentPage === page} onClick={() => typeof page === 'number' && setCurrentPage(page)}>
+                          <PaginationItem
+                            key={index}
+                            isActive={currentPage === page}
+                            onClick={() =>
+                              typeof page === "number" && setCurrentPage(page)
+                            }
+                          >
                             <PaginationLink href="#">{page}</PaginationLink>
                           </PaginationItem>
                         ))}
@@ -201,80 +281,70 @@ function StoreDetails() {
                     </Pagination>
                   </div>
                 </div>
-              }
+              )}
             </TableContainer>
           </div>
         </div>
       </DefaultLayout>
     </div>
-  )
-}
+  );
+};
 
-export default StoreDetails
+export default StoreDetails;
 
 const DATA = {
   data: [
     {
       id: 1,
-      product_name: 'Shopify.com',
+      product_name: "Shopify.com",
       price: 12,
-      link: 'https://www.google.com/',
+      link: "https://www.google.com/",
       images: [
         { id: 1, img: Logo },
         { id: 2, img: Logo },
-      ]
+      ],
     },
     {
       id: 2,
-      product_name: 'Shopify.com',
+      product_name: "Shopify.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: []
+      link: "https://www.google.com/",
+      images: [],
     },
     {
       id: 3,
-      product_name: 'zdfdf.com',
+      product_name: "zdfdf.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: [
-        { id: 1, img: Logo }
-      ]
+      link: "https://www.google.com/",
+      images: [{ id: 1, img: Logo }],
     },
     {
       id: 4,
-      product_name: 'dfs.com',
+      product_name: "dfs.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: [
-        { id: 1, img: Logo }
-      ]
+      link: "https://www.google.com/",
+      images: [{ id: 1, img: Logo }],
     },
     {
       id: 5,
-      product_name: 'sssf.com',
+      product_name: "sssf.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: [
-        { id: 1, img: Logo }
-      ]
+      link: "https://www.google.com/",
+      images: [{ id: 1, img: Logo }],
     },
     {
       id: 6,
-      product_name: 'sdf.com',
+      product_name: "sdf.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: [
-        { id: 1, img: Logo }
-      ]
+      link: "https://www.google.com/",
+      images: [{ id: 1, img: Logo }],
     },
     {
       id: 7,
-      product_name: 'Shsdfsdsdfopify.com',
+      product_name: "Shsdfsdsdfopify.com",
       price: 12,
-      link: 'https://www.google.com/',
-      images: [
-        { id: 1, img: Logo }
-      ]
+      link: "https://www.google.com/",
+      images: [{ id: 1, img: Logo }],
     },
   ],
   total_pages: 111,

@@ -12,8 +12,8 @@ export const storeApi = createApi({
       }),
     }),
     GetSingleStore: builder.mutation({
-      query: () => ({
-        url: "getPackage",
+      query: (item) => ({
+        url: `getSingleStore/${item.page}/${item.id}`,
         method: "GET",
       }),
     }),

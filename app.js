@@ -24,9 +24,9 @@ app.use(BP.json({ type: "application/*+json" }));
 const port = process.env.PORT || 8010;
 
 app.use("/auth", authRoute);
+app.use("/store", storeRouter);
 app.use("/product", PackageRoute);
 app.use("/setting", settingRouter);
-app.use("/store", storeRouter);
 app.get("/", (_, res) => res.send("Admin Node app!"));
 
 app.listen(port, () =>

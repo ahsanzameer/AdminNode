@@ -161,8 +161,8 @@ export const getSingleStore = asyncHandler(async (req, res) => {
   try {
     const store = await Store.findById(id);
     if (!store) {
-      return res.status(404).json({
-        status: 404,
+      return res.status(200).json({
+        status: 400,
         message: "Store not found",
       });
     }
@@ -171,7 +171,7 @@ export const getSingleStore = asyncHandler(async (req, res) => {
     const totalPages = Math.ceil(totalItems / limit);
 
     if (pageNumber < 1 || pageNumber > totalPages) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 400,
         message: "Invalid page number",
       });
@@ -203,7 +203,7 @@ export const getSingleStore = asyncHandler(async (req, res) => {
       currentPageNum: pageNumber,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(200).json({
       error: error.message,
       status: 500,
       message: "An error occurred while fetching data",

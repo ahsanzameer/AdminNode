@@ -27,6 +27,8 @@ import IconButton from "@mui/material/IconButton";
 // import DirectionsIcon from '@mui/icons-material/Directions';
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
+import { catchErr } from "@/utils/urls";
 
 function EnhancedTableHead() {
   return (
@@ -59,6 +61,7 @@ function EnhancedTableHead() {
 }
 
 const Stores = () => {
+  const navigation = useNavigate();
   const [finalStoreData, setFinalStoreData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -86,7 +89,7 @@ const Stores = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error, { duration: 3000 });
+      toast.error(catchErr, { duration: 3000 });
     }
   };
   const generatePageNumbers = () => {
@@ -120,7 +123,6 @@ const Stores = () => {
     );
     setStoreData(filteredData);
   };
-  console.log("filteredData", storeData);
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -205,7 +207,14 @@ const Stores = () => {
                                 alignItems: "center",
                               }}
                             >
-                              <button className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90">
+                              <button
+                                onClick={() =>
+                                  navigation("/storedetails", {
+                                    state: { index, id: row._id },
+                                  })
+                                }
+                                className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
+                              >
                                 View
                               </button>
                             </TableCell>
