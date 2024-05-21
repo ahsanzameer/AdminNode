@@ -8,6 +8,7 @@ import zakhira from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { persistStore, persistReducer } from "redux-persist";
+import { storeApi } from "./actions/storeAction";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const persistConfig = {
     authApi.reducerPath,
     userApi.reducerPath,
     settingApi.reducerPath,
+    storeApi.reducerPath,
   ],
 };
 
@@ -31,7 +33,8 @@ const store = configureStore({
     getDefaultMiddleware({ serializableCheck: false }).concat(
       authApi.middleware,
       userApi.middleware,
-      settingApi.middleware
+      settingApi.middleware,
+      storeApi.middleware
     ),
 });
 

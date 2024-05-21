@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const productSchema = new Schema(
   {
+    counter: { type: Number },
     title: {
       type: String,
     },

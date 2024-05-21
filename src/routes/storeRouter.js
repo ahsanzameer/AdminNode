@@ -1,9 +1,15 @@
 import { Router } from "express";
 import { no_image } from "../configuration/config.js";
 
-import { getStore } from "../controller/storeController.js";
+import {
+  addStore,
+  getStore,
+  getSingleStore,
+} from "../controller/storeController.js";
 const storeRoute = Router();
 
-storeRoute.post("/getStore/:store_id", no_image, getStore);
+storeRoute.post("/addStore", addStore);
+storeRoute.get("/getStore/:page", getStore);
+storeRoute.get("/getSingleStore/:id", getSingleStore);
 
 export default storeRoute;
