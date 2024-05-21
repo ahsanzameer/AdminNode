@@ -29,13 +29,16 @@ import IconButton from '@mui/material/IconButton';
 // import DirectionsIcon from '@mui/icons-material/Directions';
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
-
+import Logo from "../../images/cards/cards-01.png";
 
 function EnhancedTableHead() {
   return (
     <TableHead>
       <TableRow>
         <TableCell className="text-title-md font-bold text-black dark:text-white">
+          Product Images
+        </TableCell>
+        <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
           Product name
         </TableCell>
         <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
@@ -94,6 +97,7 @@ function StoreDetails() {
       <DefaultLayout>
         <div className="grid grid-cols-1 gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+
             <div className="flex flex-col sm:flex-row justify-between border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-bold text-black dark:text-white">Developer Store</h3>
               <h3 className="font-bold text-black dark:text-white">Total Products: {storeData.length}</h3>
@@ -133,13 +137,27 @@ function StoreDetails() {
                 </button>
               </Paper>
             </div>
+
+
             <TableContainer className="rounded-sm bg-white dark:border-strokedark dark:bg-boxdark">
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <EnhancedTableHead />
                 <TableBody>
                   {storeData.map((row) => (
                     <TableRow key={row.id}>
-                      <TableCell className="text-title-md font-bold text-black dark:text-white">
+                      <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
+                        <div className="flex flex-1">
+                          {
+                            row?.image_url?.length > 0 ?
+                              <div style={{ height: '30px', width: '40px', overflow: 'hidden' }}>
+                                <img style={{ height: '100%', width: '100%' }} src={row?.image_url[0]?.img} alt="Product image" />
+                              </div>
+                              :
+                              '-'
+                          }
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
                         {row.product_name}
                       </TableCell>
                       <TableCell className="text-title-md font-bold text-black dark:text-white" align="center">
@@ -193,6 +211,7 @@ function StoreDetails() {
 }
 
 export default StoreDetails
+
 const DATA = {
   data: [
     {
@@ -200,42 +219,62 @@ const DATA = {
       product_name: 'Shopify.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo },
+        { id: 2, img: Logo },
+      ]
     },
     {
       id: 2,
       product_name: 'Shopify.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: []
     },
     {
       id: 3,
       product_name: 'zdfdf.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo }
+      ]
     },
     {
       id: 4,
       product_name: 'dfs.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo }
+      ]
     },
     {
       id: 5,
       product_name: 'sssf.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo }
+      ]
     },
     {
       id: 6,
       product_name: 'sdf.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo }
+      ]
     },
     {
       id: 7,
       product_name: 'Shsdfsdsdfopify.com',
       price: 12,
       link: 'https://www.google.com/',
+      images: [
+        { id: 1, img: Logo }
+      ]
     },
   ],
   total_pages: 111,
