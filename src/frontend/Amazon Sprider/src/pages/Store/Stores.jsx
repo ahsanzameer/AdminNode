@@ -209,6 +209,8 @@ console.log('filteredData', storeData)
                     })}
                   </TableBody>
                 </Table>
+                {
+                  !searchQuery &&
                 <div className="flex justify-end h-12 bg-white dark:border-strokedark dark:bg-boxdark p-2 sm:p-4">
                   <div
                     className="flex items-center space-x-2 sm:space-x-4 bg-white dark:bg-boxdark px-2 sm:px-4 rounded-md overflow-x-auto"
@@ -252,6 +254,7 @@ console.log('filteredData', storeData)
                     </Pagination>
                   </div>
                 </div>
+                }
               </TableContainer>
             </div>
           </div>
