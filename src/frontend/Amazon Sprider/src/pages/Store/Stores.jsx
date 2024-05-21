@@ -18,6 +18,16 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import TableContainer from "@mui/material/TableContainer";
 import { useGetStoreMutation } from "@/redux/actions/storeAction";
 
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+// import SearchIcon from '@mui/icons-material/Search';
+// import DirectionsIcon from '@mui/icons-material/Directions';
+import { ImSearch } from "react-icons/im";
+import { RxCross2 } from "react-icons/rx";
+
 function EnhancedTableHead() {
   return (
     <TableHead>
@@ -52,16 +62,20 @@ const Stores = () => {
   const [finalStoreData, setFinalStoreData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [storeData, setStoreData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     handleGetStoreApi();
   }, [currentPage]);
+
   const [getStoreApi, { isLoading }] = useGetStoreMutation();
   const handleGetStoreApi = async () => {
     try {
       const page = currentPage;
       const response = await getStoreApi(page);
       const { status, message, data, currentPageNum, totalPage } =
-        response.data;
+        response?.data;
 
       if (status === 200) {
         setFinalStoreData(data);
@@ -75,7 +89,6 @@ const Stores = () => {
       toast.error(error, { duration: 3000 });
     }
   };
-
   const generatePageNumbers = () => {
     const pageNumbers = [];
     const maxPages = 5;
@@ -101,7 +114,13 @@ const Stores = () => {
 
     return pageNumbers;
   };
-
+  const handleSearch = () => {
+    const filteredData = finalStoreData.filter(store =>
+      store.storeName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setStoreData(filteredData);
+  };
+console.log('filteredData', storeData)
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -110,16 +129,51 @@ const Stores = () => {
         ) : (
           <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-              <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+              <div className="flex flex-col sm:flex-row justify-between border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Stores
                 </h3>
+
+                <Paper
+                  className="bg-white dark:bg-boxdark-2 dark:text-bodydark text-black flex items-center overflow-hidden mt-4 sm:mt-0"
+                  component="form"
+                  onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+                >
+                  {
+                    !searchQuery &&
+                    <IconButton sx={{ p: '10px' }} aria-label="search">
+                      <ImSearch color="gray" size={15} />
+                    </IconButton>
+                  }
+                  <InputBase
+                    style={{
+                      margin: searchQuery ? '0 0 0 14px' : '0 0 0 0',
+                    }}
+                    className="font-bold text-black dark:text-white flex-1"
+                    placeholder="Search by name"
+                    inputProps={{ 'aria-label': 'search store' }}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {
+                    searchQuery &&
+                    <IconButton aria-label="search" onClick={() => (setStoreData(null), setSearchQuery(''))}>
+                      <RxCross2 color="gray" size={15} />
+                    </IconButton>
+                  }
+                  <button
+                    className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
+                    type="submit"
+                  >
+                    Search
+                  </button>
+                </Paper>
               </div>
               <TableContainer className="rounded-sm bg-white dark:border-strokedark dark:bg-boxdark">
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <EnhancedTableHead />
                   <TableBody>
-                    {finalStoreData.map((row, index) => {
+                    {(storeData ? storeData : finalStoreData).map((row, index) => {
                       return (
                         <TableRow key={index}>
                           <TableCell className="text-title-md font-bold text-black dark:text-white">

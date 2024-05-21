@@ -29,7 +29,7 @@ const PaginationContent = React.forwardRef(({ className, ...props }, ref) => (
 PaginationContent.displayName = "PaginationContent"
 
 const PaginationItem = React.forwardRef(({ className, isActive, ...props }, ref) => (
-  <li ref={ref} className={cn("!py-8", isActive ? "bg-red-500 text-white" : "", className)} {...props} />
+  <li ref={ref} className={cn("!py-8", isActive ? "bg-boxdark-2 text-white" : "bg-white dark:bg-strokedark ", className)} {...props} />
 ))
 PaginationItem.displayName = "PaginationItem"
 
