@@ -23,7 +23,6 @@ import { Loader } from "../../components";
 
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
-import { useLocation } from "react-router-dom";
 import { catchErr } from "@/utils/urls";
 import {
   useGetSingleStoreMutation,
@@ -129,7 +128,7 @@ const StoreDetails = () => {
       const { status, message, data, currentPageNum, totalPage, totalItems } =
         response?.data;
       if (status === 200) {
-        setStoreData(data.products);
+        setFinalStoreData(data.products);
         setCurrentPage(currentPageNum);
         setTotalPages(totalPage);
         setTotalItemNum(totalItems);
@@ -141,6 +140,8 @@ const StoreDetails = () => {
       toast.error(catchErr, { duration: 3000 });
     }
   };
+  console.log({ storeData });
+
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -177,16 +178,14 @@ const StoreDetails = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                {/* {searchQuery && (
+                {searchQuery && (
                   <IconButton
                     aria-label="search"
-                    onClick={() => (
-                      setStoreData(DATA.data), setSearchQuery("")
-                    )}
+                    onClick={() => (setStoreData(), setSearchQuery(""))}
                   >
                     <RxCross2 color="gray" size={15} />
                   </IconButton>
-                )} */}
+                )}
                 <button
                   className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
                   type="submit"
@@ -203,56 +202,59 @@ const StoreDetails = () => {
                   <Loader />
                 ) : (
                   <TableBody>
-                    {storeData.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
-                          <div className="flex flex-1">
-                            {row?.image_url?.length > 0 ? (
-                              <div
-                                style={{
-                                  height: "30px",
-                                  width: "40px",
-                                  overflow: "hidden",
-                                }}
-                              >
-                                <img
-                                  style={{ height: "100%", width: "100%" }}
-                                  src={row?.image_url[0]?.img}
-                                  alt="Product image"
-                                />
-                              </div>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell
-                          className="text-title-md font-bold text-black dark:text-white"
-                          align="center"
-                        >
-                          {row.title}
-                        </TableCell>
-                        <TableCell
-                          className="text-title-md font-bold text-black dark:text-white"
-                          align="center"
-                        >
-                          <a
-                            href={row.product_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline"
+                    {/* (storeData ? storeData : finalStoreData) */}
+                    {(storeData ? storeData : finalStoreData).map(
+                      (row, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
+                            <div className="flex flex-1">
+                              {row?.image_url?.length > 0 ? (
+                                <div
+                                  style={{
+                                    height: "30px",
+                                    width: "40px",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <img
+                                    style={{ height: "100%", width: "100%" }}
+                                    src={row?.image_url[0]?.img}
+                                    alt="Product image"
+                                  />
+                                </div>
+                              ) : (
+                                "-"
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell
+                            className="text-title-md font-bold text-black dark:text-white"
+                            align="center"
                           >
-                            {row.product_url}
-                          </a>
-                        </TableCell>
-                        <TableCell
-                          className="text-title-md font-bold text-black dark:text-white"
-                          align="center"
-                        >
-                          {row.price}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                            {row.title}
+                          </TableCell>
+                          <TableCell
+                            className="text-title-md font-bold text-black dark:text-white"
+                            align="center"
+                          >
+                            <a
+                              href={row.product_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 hover:underline"
+                            >
+                              {row.product_url}
+                            </a>
+                          </TableCell>
+                          <TableCell
+                            className="text-title-md font-bold text-black dark:text-white"
+                            align="center"
+                          >
+                            {row.price}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
                   </TableBody>
                 )}
               </Table>

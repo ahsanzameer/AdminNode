@@ -72,7 +72,7 @@ const Stores = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [storeData, setStoreData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [finalStoreData, setFinalStoreData] = useState([]);
   useEffect(() => {
     handleGetStoreApi();
   }, [currentPage]);
@@ -86,7 +86,7 @@ const Stores = () => {
         response?.data;
 
       if (status === 200) {
-        setStoreData(data);
+        setFinalStoreData(data);
         setCurrentPage(currentPageNum);
         setTotalPages(totalPage);
       } else if (status === 400) {
@@ -178,14 +178,14 @@ const Stores = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  {/* {searchQuery && (
+                  {searchQuery && (
                     <IconButton
                       aria-label="search"
-                      onClick={() => (setStoreData(null), setSearchQuery(""))}
+                      onClick={() => (setStoreData(), setSearchQuery(""))}
                     >
                       <RxCross2 color="gray" size={15} />
                     </IconButton>
-                  )} */}
+                  )}
                   <button
                     className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
                     type="submit"
@@ -198,47 +198,49 @@ const Stores = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <EnhancedTableHead />
                   <TableBody>
-                    {storeData.map((row, index) => {
-                      return (
-                        <TableRow key={index}>
-                          <TableCell className="text-title-md font-bold text-black dark:text-white">
-                            {row.storeName}
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            align="center"
-                          >
-                            {row.productCount}
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            align="center"
-                          >
-                            {/* {row.package} */}
-                            bronze
-                          </TableCell>
-                          <TableCell
-                            className="text-title-md font-bold text-black dark:text-white"
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <button
-                              onClick={() => {
-                                navigation("/storedetails");
-                                dispatch(setStoreID(row._id));
-                                console.log(row._id);
-                              }}
-                              className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
+                    {(storeData ? storeData : finalStoreData).map(
+                      (row, index) => {
+                        return (
+                          <TableRow key={index}>
+                            <TableCell className="text-title-md font-bold text-black dark:text-white">
+                              {row.storeName}
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              align="center"
                             >
-                              View
-                            </button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                              {row.productCount}
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              align="center"
+                            >
+                              {/* {row.package} */}
+                              bronze
+                            </TableCell>
+                            <TableCell
+                              className="text-title-md font-bold text-black dark:text-white"
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <button
+                                onClick={() => {
+                                  navigation("/storedetails");
+                                  dispatch(setStoreID(row._id));
+                                  console.log(row._id);
+                                }}
+                                className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
+                              >
+                                View
+                              </button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )}
                   </TableBody>
                 </Table>
                 {!searchQuery && (
