@@ -1,38 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import DefaultLayout from "../../layout/DefaultLayout";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useDispatch, useSelector } from "react-redux";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-// import MenuIcon from '@mui/icons-material/Menu';
-// import SearchIcon from '@mui/icons-material/Search';
-// import DirectionsIcon from '@mui/icons-material/Directions';
+import { Loader } from "../../components";
+
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
-import Logo from "../../images/cards/cards-01.png";
 import { useLocation } from "react-router-dom";
 import { catchErr } from "@/utils/urls";
-import { useGetSingleStoreMutation } from "@/redux/actions/storeAction";
+import {
+  useGetSingleStoreMutation,
+  useSearchStoreProductMutation,
+} from "@/redux/actions/storeAction";
+import { useSelector } from "react-redux";
 
 function EnhancedTableHead() {
   return (
@@ -65,16 +62,18 @@ function EnhancedTableHead() {
 }
 
 const StoreDetails = () => {
-  const location = useLocation();
-  const { index, id } = location.state;
-  const [currentPage, setCurrentPage] = useState(DATA.current_page_no);
-  const [totalPages, setTotalPages] = useState(DATA.total_pages);
-  const [storeData, setStoreData] = useState(DATA.data);
+  const id = useSelector((state) => state.getStoreId.value);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [storeData, setStoreData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [finalStoreData, setFinalStoreData] = useState([]);
-  // console.log("final Data", finalStoreData[index].products);
+  const [totalItemNum, setTotalItemNum] = useState(0);
+
+  const [searchStoreProduct, { isLoading: searchLoading }] =
+    useSearchStoreProductMutation();
   const handleSearch = () => {
-    const filteredData = DATA.data.filter((store) =>
+    const filteredData = finalStoreData.filter((store) =>
       store.product_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setStoreData(filteredData);
@@ -82,7 +81,7 @@ const StoreDetails = () => {
 
   const generatePageNumbers = () => {
     const pageNumbers = [];
-    const maxPages = 5; // maximum number of pages to display at a time
+    const maxPages = 5;
     const startPage = Math.max(currentPage - Math.floor(maxPages / 2), 1);
     const endPage = Math.min(startPage + maxPages - 1, totalPages);
 
@@ -113,14 +112,14 @@ const StoreDetails = () => {
   const [getSingleStoreApi, { isLoading }] = useGetSingleStoreMutation();
   const handleStoreDetail = async () => {
     try {
-      const sendata = { id, page: 1 };
-      const response = await getSingleStoreApi(sendata);
-      const { status, message, data, currentPageNum, totalPage } =
+      const response = await getSingleStoreApi({ id, currentPage });
+      const { status, message, data, currentPageNum, totalPage, totalItems } =
         response?.data;
       if (status === 200) {
-        setFinalStoreData(data);
+        setFinalStoreData(data.products);
         setCurrentPage(currentPageNum);
         setTotalPages(totalPage);
+        setTotalItemNum(totalItems);
       } else if (status === 400) {
         toast.error(message, { duration: 3000 });
       }
@@ -139,7 +138,7 @@ const StoreDetails = () => {
                 Developer Store
               </h3>
               <h3 className="font-bold text-black dark:text-white">
-                Total Products: {storeData.length}
+                Total Products: {totalItemNum}
               </h3>
 
               <Paper
@@ -187,58 +186,62 @@ const StoreDetails = () => {
             <TableContainer className="rounded-sm bg-white dark:border-strokedark dark:bg-boxdark">
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <EnhancedTableHead />
-                <TableBody>
-                  {storeData.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
-                        <div className="flex flex-1">
-                          {row?.image_url?.length > 0 ? (
-                            <div
-                              style={{
-                                height: "30px",
-                                width: "40px",
-                                overflow: "hidden",
-                              }}
-                            >
-                              <img
-                                style={{ height: "100%", width: "100%" }}
-                                src={row?.image_url[0]?.img}
-                                alt="Product image"
-                              />
-                            </div>
-                          ) : (
-                            "-"
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell
-                        className="text-title-md font-bold text-black dark:text-white"
-                        align="center"
-                      >
-                        {row.product_name}
-                      </TableCell>
-                      <TableCell
-                        className="text-title-md font-bold text-black dark:text-white"
-                        align="center"
-                      >
-                        <a
-                          href={row.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline"
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <TableBody>
+                    {finalStoreData.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
+                          <div className="flex flex-1">
+                            {row?.image_url?.length > 0 ? (
+                              <div
+                                style={{
+                                  height: "30px",
+                                  width: "40px",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                <img
+                                  style={{ height: "100%", width: "100%" }}
+                                  src={row?.image_url[0]?.img}
+                                  alt="Product image"
+                                />
+                              </div>
+                            ) : (
+                              "-"
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell
+                          className="text-title-md font-bold text-black dark:text-white"
+                          align="center"
                         >
-                          {row.link}
-                        </a>
-                      </TableCell>
-                      <TableCell
-                        className="text-title-md font-bold text-black dark:text-white"
-                        align="center"
-                      >
-                        {row.price}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
+                          {row.title}
+                        </TableCell>
+                        <TableCell
+                          className="text-title-md font-bold text-black dark:text-white"
+                          align="center"
+                        >
+                          <a
+                            href={row.product_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          >
+                            {row.product_url}
+                          </a>
+                        </TableCell>
+                        <TableCell
+                          className="text-title-md font-bold text-black dark:text-white"
+                          align="center"
+                        >
+                          {row.price}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                )}
               </Table>
               {!searchQuery && (
                 <div className="flex justify-end h-12 bg-white dark:border-strokedark dark:bg-boxdark p-2 sm:p-4">
@@ -252,13 +255,14 @@ const StoreDetails = () => {
                   >
                     <Pagination>
                       <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious
-                            href="#"
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          />
-                        </PaginationItem>
+                        {currentPage !== 1 && (
+                          <PaginationItem>
+                            <PaginationPrevious
+                              href="#"
+                              onClick={() => setCurrentPage(currentPage - 1)}
+                            />
+                          </PaginationItem>
+                        )}
                         {generatePageNumbers().map((page, index) => (
                           <PaginationItem
                             key={index}
@@ -270,13 +274,14 @@ const StoreDetails = () => {
                             <PaginationLink href="#">{page}</PaginationLink>
                           </PaginationItem>
                         ))}
-                        <PaginationItem>
-                          <PaginationNext
-                            href="#"
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          />
-                        </PaginationItem>
+                        {currentPage !== totalPages && (
+                          <PaginationItem>
+                            <PaginationNext
+                              href="#"
+                              onClick={() => setCurrentPage(currentPage + 1)}
+                            />
+                          </PaginationItem>
+                        )}
                       </PaginationContent>
                     </Pagination>
                   </div>
@@ -292,6 +297,7 @@ const StoreDetails = () => {
 
 export default StoreDetails;
 
+/*
 const DATA = {
   data: [
     {
@@ -350,3 +356,4 @@ const DATA = {
   total_pages: 111,
   current_page_no: 4,
 };
+ */

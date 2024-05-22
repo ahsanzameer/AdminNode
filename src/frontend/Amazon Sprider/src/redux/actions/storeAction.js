@@ -13,11 +13,30 @@ export const storeApi = createApi({
     }),
     GetSingleStore: builder.mutation({
       query: (item) => ({
-        url: `getSingleStore/${item.page}/${item.id}`,
+        url: `getSingleStore/${item.currentPage}/${item.id}`,
         method: "GET",
+      }),
+    }),
+    SearchStore: builder.mutation({
+      query: (item) => ({
+        url: "searchStore",
+        method: "POST",
+        body: item,
+      }),
+    }),
+    SearchStoreProduct: builder.mutation({
+      query: (item) => ({
+        url: "searchStoreProduct",
+        method: "POST",
+        body: item,
       }),
     }),
   }),
 });
 
-export const { useGetStoreMutation, useGetSingleStoreMutation } = storeApi;
+export const {
+  useGetStoreMutation,
+  useSearchStoreMutation,
+  useGetSingleStoreMutation,
+  useSearchStoreProductMutation,
+} = storeApi;

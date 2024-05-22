@@ -17,6 +17,7 @@ const persistConfig = {
     "auth",
     "getPackages",
     "getSetting",
+    "getStoreID",
     authApi.reducerPath,
     userApi.reducerPath,
     settingApi.reducerPath,

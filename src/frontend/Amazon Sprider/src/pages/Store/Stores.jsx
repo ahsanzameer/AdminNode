@@ -16,7 +16,10 @@ import TableHead from "@mui/material/TableHead";
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
 import TableContainer from "@mui/material/TableContainer";
-import { useGetStoreMutation } from "@/redux/actions/storeAction";
+import {
+  useGetStoreMutation,
+  useSearchStoreMutation,
+} from "@/redux/actions/storeAction";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -29,6 +32,8 @@ import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { catchErr } from "@/utils/urls";
+import { useDispatch } from "react-redux";
+import { setStoreID } from "@/redux/slices/getStoreIdSlice";
 
 function EnhancedTableHead() {
   return (
@@ -61,6 +66,7 @@ function EnhancedTableHead() {
 }
 
 const Stores = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigate();
   const [finalStoreData, setFinalStoreData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -117,6 +123,7 @@ const Stores = () => {
 
     return pageNumbers;
   };
+  const [searchStore, { isLoading: searchLoading }] = useSearchStoreMutation();
   const handleSearch = () => {
     const filteredData = finalStoreData.filter((store) =>
       store.storeName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -208,11 +215,11 @@ const Stores = () => {
                               }}
                             >
                               <button
-                                onClick={() =>
-                                  navigation("/storedetails", {
-                                    state: { index, id: row._id },
-                                  })
-                                }
+                                onClick={() => {
+                                  navigation("/storedetails");
+                                  dispatch(setStoreID(row._id));
+                                  console.log(row._id);
+                                }}
                                 className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
                               >
                                 View
