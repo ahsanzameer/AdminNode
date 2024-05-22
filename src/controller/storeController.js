@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
-import { AmazonProduct, Store } from "../model/index.js";
+import { AmazonProduct, Store, StoreStatus } from "../model/index.js";
 
 /*
 export const getStore = asyncHandler(async (req, res) => {
@@ -337,7 +337,79 @@ export const searchStoreProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export const addStore = async (req, res) => {
+export const addStoreStateApi = asyncHandler(async (req, res) => {
+  const { storeID, is_active } = req.body;
+  try {
+    const existingStoreStatus = await StoreStatus.findOne({ storeID });
+
+    if (existingStoreStatus) {
+      existingStoreStatus.is_active = is_active;
+      await existingStoreStatus.save();
+      return res.status(200).json({
+        data: existingStoreStatus,
+        status: 200,
+        message: "Store Status Updated",
+      });
+    } else {
+      const newStoreStatus = await StoreStatus.create({ storeID, is_active });
+      return res.status(200).json({
+        data: newStoreStatus,
+        status: 200,
+        message: "Store Status Added",
+      });
+    }
+  } catch (error) {
+    res.status(200).json({
+      status: 500,
+      error: error.message,
+      message: catchErr("StoreState", "Store"),
+    });
+  }
+});
+
+export const getAllStoreStateApi = asyncHandler(async (req, res) => {
+  try {
+    const data = await StoreStatus.find();
+    return res.status(200).json({
+      data,
+      status: 200,
+      message: "Found Data",
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: 500,
+      error: error.message,
+      message: catchErr("StoreState", "Store"),
+    });
+  }
+});
+
+export const getSingleStoreStateApi = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await StoreStatus.findById(id);
+    if (!data) {
+      return res.status(200).json({
+        status: 400,
+        message: "No store Status Found",
+      });
+    } else {
+      return res.status(200).json({
+        data,
+        status: 200,
+        message: "Found Data",
+      });
+    }
+  } catch (error) {
+    res.status(200).json({
+      status: 500,
+      error: error.message,
+      message: catchErr("getSingleStoreStateApi", "Store"),
+    });
+  }
+});
+
+export const addStore = asyncHandler(async (_, res) => {
   const product = {
     counter: 22,
     title: "check Search",
@@ -365,4 +437,4 @@ export const addStore = async (req, res) => {
       message: catchErr("addStore", "Store"),
     });
   }
-};
+});

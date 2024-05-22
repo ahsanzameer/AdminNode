@@ -31,9 +31,6 @@ app.get("/", (_, res) => res.send("Admin Node app!"));
 
 app.listen(port, () =>
   console.log(
-    chalk.bgHex("#193547").hex("#ecf4f8")(
-      "Admin Node app port",
-      chalk.bgHex("#FFA500").hex("#000")(`http://localhost:${port}/`)
-    )
+    chalk.hex("#76ABAE")("𝙰𝚍𝚖𝚒𝚗 𝙽𝚘𝚍𝚎 𝚊𝚙𝚙 𝚙𝚘𝚛𝚝", `𝚑𝚝𝚝𝚙://𝚕𝚘𝚌𝚊𝚕𝚑𝚘𝚜𝚝:${port}/`)
   )
 );

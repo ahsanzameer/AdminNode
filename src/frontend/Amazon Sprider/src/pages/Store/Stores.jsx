@@ -1,47 +1,36 @@
 import {
   Pagination,
-  PaginationLink,
-  PaginationNext,
   PaginationItem,
+  PaginationNext,
+  PaginationLink,
   PaginationContent,
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import toast from "react-hot-toast";
+import Paper from "@mui/material/Paper";
+import { catchErr } from "@/utils/urls";
 import Table from "@mui/material/Table";
+import { useDispatch } from "react-redux";
+import { RxCross2 } from "react-icons/rx";
+import { ImSearch } from "react-icons/im";
 import { Loader } from "../../components";
 import TableRow from "@mui/material/TableRow";
+import { useNavigate } from "react-router-dom";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
 import TableContainer from "@mui/material/TableContainer";
+import { setStoreID } from "@/redux/slices/getStoreIdSlice";
+import SwitcherTwo from "@/components/Switchers/SwitcherTwo";
+
 import {
   useGetStoreMutation,
   useSearchStoreMutation,
 } from "@/redux/actions/storeAction";
-
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-// import MenuIcon from '@mui/icons-material/Menu';
-// import SearchIcon from '@mui/icons-material/Search';
-// import DirectionsIcon from '@mui/icons-material/Directions';
-import { ImSearch } from "react-icons/im";
-import { RxCross2 } from "react-icons/rx";
-import { useNavigate } from "react-router-dom";
-import { catchErr } from "@/utils/urls";
-import { useDispatch } from "react-redux";
-import { setStoreID } from "@/redux/slices/getStoreIdSlice";
-
-import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import SwitcherTwo from "@/components/Switchers/SwitcherTwo";
 
 function EnhancedTableHead() {
   return (
@@ -136,7 +125,7 @@ const Stores = () => {
 
     return pageNumbers;
   };
-  const [searchStore, { isLoading: searchLoading }] = useSearchStoreMutation();
+  const [searchStore] = useSearchStoreMutation();
   const handleSearch = async () => {
     const value = searchQuery;
     try {
@@ -156,55 +145,6 @@ const Stores = () => {
     // );
     // setStoreData(filteredData);
   };
-  const [switchValue, setSwitchValue] = useState(1);
-
-  const handleSwitchChange = () => {
-    const newValue = switchValue === 1 ? 0 : 1;
-    setSwitchValue(newValue);
-  };
-
-  const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: 'flex',
-    '&:active': {
-      '& .MuiSwitch-thumb': {
-        width: 15,
-      },
-      '& .MuiSwitch-switchBase.Mui-checked': {
-        transform: 'translateX(9px)',
-      },
-    },
-    '& .MuiSwitch-switchBase': {
-      padding: 2,
-      '&.Mui-checked': {
-        transform: 'translateX(12px)',
-        color: '#fff',
-        '& + .MuiSwitch-track': {
-          opacity: 1,
-          backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
-        },
-      },
-    },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      transition: theme.transitions.create(['width'], {
-        duration: 200,
-      }),
-    },
-    '& .MuiSwitch-track': {
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
-      boxSizing: 'border-box',
-    },
-  }));
-
 
   return (
     <div className="w-full">
@@ -282,7 +222,7 @@ const Stores = () => {
                               {/* {row.package} */}
                               bronze
                             </TableCell>
-                            
+
                             <TableCell
                               className="text-title-md font-bold text-black dark:text-white"
                               align="center"

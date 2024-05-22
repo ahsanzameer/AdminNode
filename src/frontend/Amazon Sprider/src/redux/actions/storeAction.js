@@ -11,12 +11,14 @@ export const storeApi = createApi({
         method: "GET",
       }),
     }),
+
     GetSingleStore: builder.mutation({
       query: (item) => ({
         url: `getSingleStore/${item.currentPage}/${item.id}`,
         method: "GET",
       }),
     }),
+
     SearchStore: builder.mutation({
       query: (item) => ({
         url: "searchStore",
@@ -24,6 +26,7 @@ export const storeApi = createApi({
         body: item,
       }),
     }),
+
     SearchStoreProduct: builder.mutation({
       query: (item) => ({
         url: "searchStoreProduct",
@@ -31,11 +34,23 @@ export const storeApi = createApi({
         body: item,
       }),
     }),
+
+    StoreState: builder.mutation({
+      query: (data) => {
+        console.log("Data being sent to /addStoreStateApi:", data);
+        return {
+          url: "/addStoreStateApi",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGetStoreMutation,
+  useStoreStateMutation,
   useSearchStoreMutation,
   useGetSingleStoreMutation,
   useSearchStoreProductMutation,

@@ -8,7 +8,7 @@ export const DBcon = async () => {
   try {
     await connect(process.env.MONGO_URL);
     console.log(
-      chalk.hex("#00C851").italic("ᴹᵒⁿᵍᵒᴰᴮ ⁱˢ ᶜᵒⁿⁿᵉᶜᵗᵉᵈ ˢᵘᶜᶜᵉˢˢᶠᵘˡˡʸ")
+      chalk.hex("#fff").italic(" 𝔐𝔬𝔫𝔤𝔬𝔇𝔅 𝔦𝔰 𝔠𝔬𝔫𝔫𝔢𝔠𝔱𝔢𝔡 𝔰𝔲𝔠𝔠𝔢𝔰𝔰𝔣𝔲𝔩𝔩𝔶 ")
     );
   } catch (error) {
     console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
@@ -19,4 +19,4 @@ export const catchErr = (data, a) => {
   return `Internal server error in ${data} API, ${a} controller`;
 };
 
-export const no_image = multer().none();
+export const fromData = multer().none();

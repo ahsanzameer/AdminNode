@@ -6,14 +6,14 @@ import {
   deletePackage,
   getSinglePackage,
 } from "../controller/packageController.js";
-import { no_image } from "../configuration/config.js";
+import { fromData } from "../configuration/config.js";
 
 const packageRouter = Router();
 
 packageRouter.get("/getPackage", getPackage);
-packageRouter.post("/addPackage", no_image, addPackage);
+packageRouter.post("/addPackage", fromData, addPackage);
 packageRouter.delete("/deletePackage/:_id", deletePackage);
 packageRouter.get("/getSinglePackage/:_id", getSinglePackage);
-packageRouter.patch("/editPackage/:_id", no_image, editPackage);
+packageRouter.patch("/editPackage/:_id", fromData, editPackage);
 
 export default packageRouter;
