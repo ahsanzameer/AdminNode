@@ -72,11 +72,24 @@ const StoreDetails = () => {
 
   const [searchStoreProduct, { isLoading: searchLoading }] =
     useSearchStoreProductMutation();
-  const handleSearch = () => {
-    const filteredData = finalStoreData.filter((store) =>
-      store.product_name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setStoreData(filteredData);
+  const handleSearch = async () => {
+    try {
+      const value = searchQuery;
+      const response = await searchStoreProduct({ value });
+      const { status, message, data } = response?.data;
+      if (status === 200) {
+        setStoreData(data[0].products);
+      } else {
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(catchErr, { duration: 3000 });
+    }
+    // const filteredData = finalStoreData.filter((store) =>
+    //   store.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setStoreData(filteredData);
   };
 
   const generatePageNumbers = () => {
@@ -116,7 +129,7 @@ const StoreDetails = () => {
       const { status, message, data, currentPageNum, totalPage, totalItems } =
         response?.data;
       if (status === 200) {
-        setFinalStoreData(data.products);
+        setStoreData(data.products);
         setCurrentPage(currentPageNum);
         setTotalPages(totalPage);
         setTotalItemNum(totalItems);
@@ -164,7 +177,7 @@ const StoreDetails = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                {searchQuery && (
+                {/* {searchQuery && (
                   <IconButton
                     aria-label="search"
                     onClick={() => (
@@ -173,7 +186,7 @@ const StoreDetails = () => {
                   >
                     <RxCross2 color="gray" size={15} />
                   </IconButton>
-                )}
+                )} */}
                 <button
                   className="flex justify-center items-center  w-15 h-full font-satoshi text-black dark:text-white"
                   type="submit"
@@ -190,7 +203,7 @@ const StoreDetails = () => {
                   <Loader />
                 ) : (
                   <TableBody>
-                    {finalStoreData.map((row, index) => (
+                    {storeData.map((row, index) => (
                       <TableRow key={index}>
                         <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
                           <div className="flex flex-1">
