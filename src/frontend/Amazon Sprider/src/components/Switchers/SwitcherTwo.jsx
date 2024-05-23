@@ -7,7 +7,7 @@ import { catchErr } from "@/utils/urls";
 
 const SwitcherTwo = ({ row }) => {
   const [switchValue, setSwitchValue] = useState(row.is_active === "Yes");
-
+  console.log(row);
   const [addStoreStoreApi] = useStoreStateMutation();
   const handleSwitchChange = async () => {
     const newSwitchValue = !switchValue;
@@ -16,7 +16,7 @@ const SwitcherTwo = ({ row }) => {
     try {
       const response = await addStoreStoreApi({
         is_active,
-        storeID: row._id,
+        id: row._id,
       });
       const { status, message, data } = response?.data;
       console.log(response);

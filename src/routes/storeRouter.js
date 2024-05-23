@@ -9,6 +9,7 @@ import {
   addStoreStateApi,
   searchStoreProduct,
   getAllStoreStateApi,
+  getSingleStoreProduct,
   getSingleStoreStateApi,
 } from "../controller/storeController.js";
 
@@ -20,6 +21,7 @@ storeRoute.post("/searchStore", fromData, searchStore);
 storeRoute.get("/getSingleStore/:page/:id", getSingleStore);
 storeRoute.get("/getAllStoreStateApi", getAllStoreStateApi);
 storeRoute.post("/addStoreStateApi", fromData, addStoreStateApi);
+storeRoute.get("/getSingleStoreProduct/:id", getSingleStoreProduct);
 storeRoute.post("/searchStoreProduct", fromData, searchStoreProduct);
 storeRoute.get("/getSingleStoreStateApi/:id", getSingleStoreStateApi);
 

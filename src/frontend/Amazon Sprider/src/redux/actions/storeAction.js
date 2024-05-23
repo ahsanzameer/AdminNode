@@ -13,10 +13,13 @@ export const storeApi = createApi({
     }),
 
     GetSingleStore: builder.mutation({
-      query: (item) => ({
-        url: `getSingleStore/${item.currentPage}/${item.id}`,
-        method: "GET",
-      }),
+      query: (item) => {
+        console.log("fiGetSingleStore ka item hay yhh", item);
+        return {
+          url: `getSingleStore/${item.currentPage}/${item.id}`,
+          method: "GET",
+        };
+      },
     }),
 
     SearchStore: builder.mutation({
@@ -45,6 +48,12 @@ export const storeApi = createApi({
         };
       },
     }),
+    getSingleStoreProductApi: builder.mutation({
+      query: (id) => ({
+        url: `getSingleStoreProduct/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -54,4 +63,5 @@ export const {
   useSearchStoreMutation,
   useGetSingleStoreMutation,
   useSearchStoreProductMutation,
+  useGetSingleStoreProductApiMutation,
 } = storeApi;

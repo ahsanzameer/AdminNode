@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
-import { AmazonProduct, Store, StoreStatus } from "../model/index.js";
+import { AmazonProduct, Store } from "../model/index.js";
 
 /*
 export const getStore = asyncHandler(async (req, res) => {
@@ -185,6 +185,31 @@ export const getSingleStore = asyncHandler(async (req, res) => {
   }
 });
 
+export const getSingleStoreProduct = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!id) throw new Error("Product id is required");
+    const product = await AmazonProduct.findById(id);
+    if (!product) {
+      return res.status(200).json({
+        status: 400,
+        message: "Product not found",
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      data: product,
+      message: "Found Data",
+    });
+  } catch (error) {
+    res.status(200).json({
+      error: error.message,
+      status: 500,
+      message: catchErr("getSingleStoreProduct", "Store"),
+    });
+  }
+});
+
 export const getStore = asyncHandler(async (req, res) => {
   const { page } = req.params;
   const limit = 7;
@@ -213,6 +238,7 @@ export const getStore = asyncHandler(async (req, res) => {
       {
         $project: {
           storeName: 1,
+          is_active: 1,
           createdAt: 1,
           updatedAt: 1,
           productCount: { $size: "$products" },
@@ -338,9 +364,9 @@ export const searchStoreProduct = asyncHandler(async (req, res) => {
 });
 
 export const addStoreStateApi = asyncHandler(async (req, res) => {
-  const { storeID, is_active } = req.body;
+  const { id, is_active } = req.body;
   try {
-    const existingStoreStatus = await StoreStatus.findOne({ storeID });
+    const existingStoreStatus = await Store.findById(id);
 
     if (existingStoreStatus) {
       existingStoreStatus.is_active = is_active;
@@ -351,9 +377,9 @@ export const addStoreStateApi = asyncHandler(async (req, res) => {
         message: "Store Status Updated",
       });
     } else {
-      const newStoreStatus = await StoreStatus.create({ storeID, is_active });
+      const data = await Store.create({ is_active });
       return res.status(200).json({
-        data: newStoreStatus,
+        data,
         status: 200,
         message: "Store Status Added",
       });

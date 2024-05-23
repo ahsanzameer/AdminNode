@@ -19,7 +19,7 @@ import {
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
-import { Loader } from "../../components";
+import { Loader, ProductDetailModal } from "../../components";
 
 import { ImSearch } from "react-icons/im";
 import { RxCross2 } from "react-icons/rx";
@@ -30,7 +30,7 @@ import {
 } from "@/redux/actions/storeAction";
 import { useSelector } from "react-redux";
 
-function EnhancedTableHead() {
+const EnhancedTableHead = () => {
   return (
     <TableHead>
       <TableRow>
@@ -55,10 +55,16 @@ function EnhancedTableHead() {
         >
           Price
         </TableCell>
+        <TableCell
+          className="text-title-md font-bold text-black dark:text-white"
+          align="center"
+        >
+          Action
+        </TableCell>
       </TableRow>
     </TableHead>
   );
-}
+};
 
 const StoreDetails = () => {
   const id = useSelector((state) => state.getStoreId.value);
@@ -68,9 +74,12 @@ const StoreDetails = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [finalStoreData, setFinalStoreData] = useState([]);
   const [totalItemNum, setTotalItemNum] = useState(0);
+  const [showProductDetail, setShowProductDetail] = useState({
+    id: 0,
+    visible: false,
+  });
 
-  const [searchStoreProduct, { isLoading: searchLoading }] =
-    useSearchStoreProductMutation();
+  const [searchStoreProduct] = useSearchStoreProductMutation();
   const handleSearch = async () => {
     try {
       const value = searchQuery;
@@ -85,10 +94,6 @@ const StoreDetails = () => {
       console.log(error);
       toast.error(catchErr, { duration: 3000 });
     }
-    // const filteredData = finalStoreData.filter((store) =>
-    //   store.product_name.toLowerCase().includes(searchQuery.toLowerCase())
-    // );
-    // setStoreData(filteredData);
   };
 
   const generatePageNumbers = () => {
@@ -140,7 +145,6 @@ const StoreDetails = () => {
       toast.error(catchErr, { duration: 3000 });
     }
   };
-  console.log({ storeData });
 
   return (
     <div className="w-full">
@@ -203,7 +207,8 @@ const StoreDetails = () => {
                 ) : (
                   <TableBody>
                     {/* (storeData ? storeData : finalStoreData) */}
-                    {(storeData ? storeData : finalStoreData).map(
+                    {/* yhh condotion nhh chl rahi theek say */}
+                    {(storeData.length >= 0 ? finalStoreData : storeData).map(
                       (row, index) => (
                         <TableRow key={index}>
                           <TableCell className="text-title-md font-bold text-black dark:text-white flex flex-row">
@@ -251,6 +256,22 @@ const StoreDetails = () => {
                             align="center"
                           >
                             {row.price}
+                          </TableCell>
+                          <TableCell
+                            className="text-title-md font-bold text-black dark:text-white"
+                            align="center"
+                          >
+                            <button
+                              onClick={() =>
+                                setShowProductDetail({
+                                  visible: true,
+                                  id: row._id,
+                                })
+                              }
+                              className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
+                            >
+                              View
+                            </button>
                           </TableCell>
                         </TableRow>
                       )
@@ -303,6 +324,11 @@ const StoreDetails = () => {
                 </div>
               )}
             </TableContainer>
+            <ProductDetailModal
+              id={showProductDetail.id}
+              visible={showProductDetail.visible}
+              onClose={() => setShowProductDetail({ visible: false, id: "" })}
+            />
           </div>
         </div>
       </DefaultLayout>

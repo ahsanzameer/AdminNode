@@ -244,9 +244,15 @@ const Stores = () => {
                             >
                               <button
                                 onClick={() => {
-                                  navigation("/storedetails");
-                                  dispatch(setStoreID(row._id));
-                                  console.log(row._id);
+                                  if (row.productCount > 0) {
+                                    navigation("/storedetails");
+                                    dispatch(setStoreID(row._id));
+                                  } else {
+                                    toast.error(
+                                      "Cannt navigate cause there isn't any Product",
+                                      { duration: 3000 }
+                                    );
+                                  }
                                 }}
                                 className="h-8.5 flex justify-center rounded bg-primary dark:bg-white py-2 px-6 font-medium text-white dark:text-black hover:bg-opacity-90"
                               >
