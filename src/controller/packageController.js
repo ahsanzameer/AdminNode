@@ -75,17 +75,18 @@ export const addPackage = asyncHandler(async (req, res) => {
     });
   }
 });
-
 export const getPackage = asyncHandler(async (_, res) => {
   try {
     const data = await Packages.find();
+
+    const sortedData = data.sort((a, b) => a.packagePrice - b.packagePrice);
     return res.status(200).json({
       status: 200,
-      object: data.reverse(),
+      object: sortedData,
       message: "Found the Data",
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(500).json({
       error,
       status: 500,
       message: catchErr("getPackage", "Package"),

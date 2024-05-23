@@ -77,7 +77,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             textTransform: "uppercase",
           }}
         >
-          Spreader Admin
+          ShafsAmazonAffil{`\n`}iateImporter
         </NavLink>
 
         <button

@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 import moment from "moment/moment";
 
-export const style = {
+const style = {
   position: "absolute",
   top: "40%",
   left: "50%",
