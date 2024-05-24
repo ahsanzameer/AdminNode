@@ -58,11 +58,12 @@ const ProductDetailModal = ({ visible, id, onClose }) => {
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{display: 'flex',justifyContent: 'center', alignItems: 'center'}}
     >
       {isLoading ? (
         <Loader />
       ) : (
-        <Box sx={style[0]}>
+        <Box sx={style[0]} className="rounded-sm p-2 border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <AutoPlaySwipeableViews
             index={activeStep}
             onChangeIndex={handleStepChange}
@@ -72,6 +73,7 @@ const ProductDetailModal = ({ visible, id, onClose }) => {
               <div key={i.toString()}>
                 {Math.abs(activeStep - i) <= 2 ? (
                   <Box
+                  className="h-4/6"
                     component="img"
                     sx={style[1]}
                     src={step.imgPath}
@@ -82,42 +84,37 @@ const ProductDetailModal = ({ visible, id, onClose }) => {
             ))}
           </AutoPlaySwipeableViews>
           <MobileStepper
+            className="font-medium text-black dark:text-white  bg-white  dark:border-strokedark dark:bg-boxdark"
             variant="text"
             color="#fff"
-            sx={{
-              backgroundColor: "#397BE5",
-              borderRadius: "10px",
-            }}
-            className="text-[#fff]"
             itemProp="light"
             steps={maxSteps}
             position="static"
             activeStep={activeStep}
-            style={{ backgroundColor: "#12181F" }}
             nextButton={
               <Button
-                style={{ color: "#fff" }}
+                className="font-medium text-black dark:text-white"
                 size="small"
                 onClick={handleNext}
                 disabled={activeStep === maxSteps - 1}
               >
                 Next
-                <MdKeyboardArrowRight size={23} color={"#fff"} />
+                <MdKeyboardArrowRight size={23} />
               </Button>
             }
             backButton={
               <Button
                 size="small"
-                style={{ color: "#fff" }}
+                className="font-medium text-black dark:text-white"
                 onClick={handleBack}
                 disabled={activeStep === 0}
               >
-                <MdKeyboardArrowLeft size={23} color={"#fff"} />
+                <MdKeyboardArrowLeft size={23} />
                 Back
               </Button>
             }
           />
-          <p className="text-[#fff] text-center">{data.title}</p>
+          <p className="font-medium text-black dark:text-white text-center">{data.title}</p>
           <Link target="blank" to={data.product_url}>
             <p className="text-blue-500 hover:underline text-center">
               {data.product_url}
@@ -143,19 +140,15 @@ const style = [
   {
     position: "absolute",
     top: "50%",
-    left: "60%",
+    left: "50%",
     transform: "translate(-50%, -50%)",
     width: "90%",
     maxWidth: "700px",
     height: "90%",
-    bgcolor: "#12181F",
-    boxShadow: 24,
-    p: 2.4,
     borderRadius: "10px",
     overflow: "hidden",
   },
   {
-    height: 255,
     display: "block",
     maxWidth: "100%",
     overflow: "hidden",
