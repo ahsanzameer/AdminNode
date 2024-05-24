@@ -1,18 +1,19 @@
+import cors from "cors";
 import chalk from "chalk";
+import BP from "body-parser";
 import { config } from "dotenv";
+import express, { json, urlencoded } from "express";
+import { DBConnection } from "./src/configuration/config.js";
+
 import {
   authRoute,
+  storeRouter,
   PackageRoute,
   settingRouter,
-  storeRouter,
 } from "./src/routes/index.js";
-import express, { json, urlencoded } from "express";
-import { DBcon } from "./src/configuration/config.js";
-import cors from "cors";
-import BP from "body-parser";
 
-DBcon();
 config();
+DBConnection();
 
 const app = express();
 

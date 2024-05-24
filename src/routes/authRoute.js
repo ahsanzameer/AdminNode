@@ -2,7 +2,7 @@ import { Router } from "express";
 import moment from "moment";
 import multer from "multer";
 
-import { login } from "../controller/authController.js";
+import { login, register } from "../controller/authController.js";
 import { fromData } from "../configuration/config.js";
 const router = Router();
 
@@ -23,5 +23,6 @@ const storage = multer.diskStorage({
 const upload_single = multer({ storage }).single("profile_image");
 
 router.post("/login", fromData, login);
+router.post("/register", fromData, register);
 
 export default router;

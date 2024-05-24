@@ -36,6 +36,7 @@ const SignIn = () => {
       const { status, message, data } = response.data;
       if (status === 200) {
         dispatch(setUser(data));
+        console.log({ data });
       } else if (status === 400) {
         console.log("message", message);
         toast.error(message, { duration: 3000 });

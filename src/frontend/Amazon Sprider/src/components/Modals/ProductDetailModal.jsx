@@ -68,9 +68,9 @@ const ProductDetailModal = ({ visible, id, onClose }) => {
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
-            {images.map((step, index) => (
-              <div key={index}>
-                {Math.abs(activeStep - index) <= 2 ? (
+            {images.map((step, i) => (
+              <div key={i.toString()}>
+                {Math.abs(activeStep - i) <= 2 ? (
                   <Box
                     component="img"
                     sx={style[1]}

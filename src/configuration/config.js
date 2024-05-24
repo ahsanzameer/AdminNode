@@ -4,14 +4,16 @@ import { config } from "dotenv";
 import { connect } from "mongoose";
 
 config();
-export const DBcon = async () => {
+export const DBConnection = async () => {
   try {
     await connect(process.env.MONGO_URL);
     console.log(
       chalk.hex("#fff").italic(" 𝔐𝔬𝔫𝔤𝔬𝔇𝔅 𝔦𝔰 𝔠𝔬𝔫𝔫𝔢𝔠𝔱𝔢𝔡 𝔰𝔲𝔠𝔠𝔢𝔰𝔰𝔣𝔲𝔩𝔩𝔶 ")
     );
   } catch (error) {
-    console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
+    console.log(
+      chalk.hex("#ff5252").italic(`MongoDB error catch error: 💥💥💥� ${error}`)
+    );
   }
 };
 
