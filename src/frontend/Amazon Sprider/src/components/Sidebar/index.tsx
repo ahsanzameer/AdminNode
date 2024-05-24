@@ -128,7 +128,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-bodydark1 duration-300 ease-in-out hover:bg-gray dark:hover:bg-meta-4 ${
                           (pathname === "/" ||
                             pathname.includes("dashboard")) &&
-                          "bg-graydark dark:bg-meta-4"
+                          "bg-gray dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -192,8 +192,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black dark:text-bodydark2 duration-300 ease-in-out hover:text-bodydark2 " +
+                                (isActive && "text-black dark:text-white")
                               }
                             >
                               eCommerce
@@ -221,7 +221,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black dark:text-bodydark1 duration-300 ease-in-out hover:bg-gray dark:hover:bg-meta-4 ${
                           (pathname === "/addpackage" ||
                             pathname.includes("addpackage")) &&
-                          "bg-graydark dark:bg-meta-4"
+                          "bg-gray dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -289,8 +289,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/addpackage"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black dark:text-bodydark2 duration-300 ease-in-out hover:text-bodydark2 " +
+                                (isActive && "text-black dark:text-white")
                               }
                             >
                               Add Package
@@ -300,8 +300,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/listpackage"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black dark:text-bodydark2 duration-300 ease-in-out hover:text-bodydark2 " +
+                                (isActive && "text-black dark:text-white")
                               }
                             >
                               List Packages
@@ -346,7 +346,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <NavLink
                   to="/profile"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black dark:text-bodydark1 duration-300 ease-in-out hover:bg-gray dark:hover:bg-meta-4 ${
-                    pathname.includes("profile") && "bg-graydark dark:bg-meta-4"
+                    pathname.includes("profile") && "bg-gray dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -456,7 +456,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black dark:text-bodydark1 duration-300 ease-in-out hover:bg-gray dark:hover:bg-meta-4 ${
                           (pathname === "/addsetting" ||
                             pathname.includes("addsetting")) &&
-                          "bg-graydark dark:bg-meta-4"
+                          "bg-gray dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -524,8 +524,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/addsetting"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black dark:text-bodydark2 duration-300 ease-in-out hover:text-bodydark2 " +
+                                (isActive && "text-black dark:text-white")
                               }
                             >
                               Add Setting
@@ -535,8 +535,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/listsetting"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black dark:text-bodydark2 duration-300 ease-in-out hover:text-bodydark2 " +
+                                (isActive && "text-black dark:text-white")
                               }
                             >
                               List Setting
