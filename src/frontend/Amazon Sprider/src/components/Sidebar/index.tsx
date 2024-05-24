@@ -72,12 +72,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <NavLink
           to="/"
           style={{
-            fontSize: "25px",
+            fontSize: "20px",
             fontWeight: "800",
             textTransform: "uppercase",
           }}
         >
-          ShafsAmazonAffil{`\n`}iateImporter
+          ShafsAmazonAffiliate{`\n`}Importer
         </NavLink>
 
         <button
