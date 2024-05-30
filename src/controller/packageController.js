@@ -103,7 +103,7 @@ export const addPackage = asyncHandler(async (req, res) => {
       !packageAmazonImportNumber ||
       packageCSVImportBoolean === undefined
     ) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 400,
         message: `${
           !packageName
@@ -126,15 +126,13 @@ export const addPackage = asyncHandler(async (req, res) => {
       packageCsvImportNumber = 0;
     }
 
-    // Check if packageCSVImportBoolean is "Yes" and packageCsvImportNumber is undefined
     if (
       packageCSVImportBoolean === "Yes" &&
       (packageCsvImportNumber === undefined || packageCsvImportNumber === null)
     ) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 400,
-        message:
-          "packageCsvImportNumber is required when packageCSVImportBoolean is 'Yes'",
+        message: "Csv Import Number is required when CSV Import is 'Yes'",
       });
     }
 
@@ -143,7 +141,7 @@ export const addPackage = asyncHandler(async (req, res) => {
     const checkPackPrice = await Packages.findOne({ packagePrice });
 
     if (checkPackName || checkPackPrice) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 400,
         message: `This Package ${
           checkPackName ? "Name" : "Price"
@@ -168,7 +166,7 @@ export const addPackage = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
+    return res.status(200).json({
       error,
       status: 500,
       message: `An error occurred while adding the package.`,
