@@ -2,15 +2,16 @@ import { Packages } from "../model/index.js";
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
 
+/*
 export const addPackage = asyncHandler(async (req, res) => {
   try {
     const {
       packageName,
       packageDesc,
       packagePrice,
-      packageAmazonImportNumber,
-      packageCSVImportBoolean,
       packageCsvImportNumber,
+      packageCSVImportBoolean,
+      packageAmazonImportNumber,
     } = req.body;
     const checkPackName = await Packages.findOne({ packageName });
     const checkPackPrice = await Packages.findOne({ packagePrice });
@@ -52,6 +53,8 @@ export const addPackage = asyncHandler(async (req, res) => {
           checkPackName ? "Name" : "Price"
         } is already exist`,
       });
+    } else if (packageCSVImportBoolean === "No") {
+      packageCsvImportNumber = 0;
     } else {
       const data = await Packages.create({
         packageName,
@@ -68,6 +71,7 @@ export const addPackage = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return res.status(200).json({
       error,
       status: 500,
@@ -75,6 +79,103 @@ export const addPackage = asyncHandler(async (req, res) => {
     });
   }
 });
+*/
+
+export const addPackage = asyncHandler(async (req, res) => {
+  try {
+    const {
+      packageName,
+      packageDesc,
+      packagePrice,
+      packageCsvImportNumber: initialPackageCsvImportNumber,
+      packageCSVImportBoolean,
+      packageAmazonImportNumber,
+    } = req.body;
+
+    // Create a mutable variable for packageCsvImportNumber
+    let packageCsvImportNumber = initialPackageCsvImportNumber;
+
+    // Check for required fields
+    if (
+      !packageName ||
+      !packageDesc ||
+      !packagePrice ||
+      !packageAmazonImportNumber ||
+      packageCSVImportBoolean === undefined
+    ) {
+      return res.status(400).json({
+        status: 400,
+        message: `${
+          !packageName
+            ? "Package Name"
+            : !packageDesc
+            ? "Package Description"
+            : !packagePrice
+            ? "Package Price"
+            : !packageAmazonImportNumber
+            ? "Package Amazon Import Number"
+            : packageCSVImportBoolean === undefined
+            ? "packageCSVImportBoolean"
+            : ""
+        } is required`,
+      });
+    }
+
+    // Set packageCsvImportNumber to 0 if packageCSVImportBoolean is "No"
+    if (packageCSVImportBoolean === "No") {
+      packageCsvImportNumber = 0;
+    }
+
+    // Check if packageCSVImportBoolean is "Yes" and packageCsvImportNumber is undefined
+    if (
+      packageCSVImportBoolean === "Yes" &&
+      (packageCsvImportNumber === undefined || packageCsvImportNumber === null)
+    ) {
+      return res.status(400).json({
+        status: 400,
+        message:
+          "packageCsvImportNumber is required when packageCSVImportBoolean is 'Yes'",
+      });
+    }
+
+    // Check for existing package name or price
+    const checkPackName = await Packages.findOne({ packageName });
+    const checkPackPrice = await Packages.findOne({ packagePrice });
+
+    if (checkPackName || checkPackPrice) {
+      return res.status(400).json({
+        status: 400,
+        message: `This Package ${
+          checkPackName ? "Name" : "Price"
+        } already exists`,
+      });
+    }
+
+    // Create the package
+    const data = await Packages.create({
+      packageName,
+      packageDesc,
+      packagePrice,
+      packageAmazonImportNumber,
+      packageCSVImportBoolean,
+      packageCsvImportNumber,
+    });
+
+    res.status(200).json({
+      data,
+      status: 200,
+      message: `New Package with the name (${packageName}) has been created`,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error,
+      status: 500,
+      message: `An error occurred while adding the package.`,
+    });
+  }
+});
+
 export const getPackage = asyncHandler(async (_, res) => {
   try {
     const data = await Packages.find();
