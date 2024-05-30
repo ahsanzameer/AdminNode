@@ -31,7 +31,7 @@ function EditPackageModal(props) {
     packageCsvImportNumber: data?.packageCsvImportNumber,
     packageDesc: data?.packageDesc,
   });
-
+  console.log(data);
   const handleChange = (e) => {
     setValue({
       ...value,
@@ -48,6 +48,7 @@ function EditPackageModal(props) {
       packageCsvImportNumber: data?.packageCsvImportNumber,
       packageDesc: data?.packageDesc,
     });
+    setShowCSV("Yes");
   }, [data]);
 
   const [editProductApi, { isLoading }] = useEditPackageMutation();
@@ -137,27 +138,23 @@ function EditPackageModal(props) {
                     />
                   </div>
 
-                  <SelectGroupOne
-                    showCSV={data?.packageCSVImportBoolean}
-                    setShowCSV={setShowCSV}
-                  />
+                  <SelectGroupOne showCSV={showCSV} setShowCSV={setShowCSV} />
 
-                  {showCSV === "Yes" ||
-                    (data?.packageCsvImportNumber && (
-                      <div className="mb-4">
-                        <label className="mb-2.5 block text-black dark:text-white">
-                          CSV number
-                        </label>
-                        <input
-                          value={value.packageCsvImportNumber}
-                          name="packageCsvImportNumber"
-                          onChange={handleChange}
-                          type="number"
-                          placeholder="CSV number"
-                          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                        />
-                      </div>
-                    ))}
+                  {showCSV === "Yes" && (
+                    <div className="mb-4">
+                      <label className="mb-2.5 block text-black dark:text-white">
+                        CSV number
+                      </label>
+                      <input
+                        value={value.packageCsvImportNumber}
+                        name="packageCsvImportNumber"
+                        onChange={handleChange}
+                        type="number"
+                        placeholder="CSV number"
+                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      />
+                    </div>
+                  )}
 
                   <div className="mb-6">
                     <label className="mb-2.5 block text-black dark:text-white">

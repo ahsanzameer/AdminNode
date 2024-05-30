@@ -123,7 +123,7 @@ export const addPackage = asyncHandler(async (req, res) => {
 
     // Set packageCsvImportNumber to 0 if packageCSVImportBoolean is "No"
     if (packageCSVImportBoolean === "No") {
-      packageCsvImportNumber = 0;
+      packageCsvImportNumber = null;
     }
 
     if (

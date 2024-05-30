@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const SelectGroupOne = ({ setShowCSV }) => {
-  const [selectedOption, setSelectedOption] = useState("No");
+const SelectGroupOne = ({ showCSV, setShowCSV }) => {
+  const [selectedOption, setSelectedOption] = useState(showCSV || "No");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
 
   return (
