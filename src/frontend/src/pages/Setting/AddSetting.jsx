@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import userThree from "../../images/user/user-03.png";
 import slugify from "react-slugify";
 import { useDispatch } from "react-redux";
 import { useAddSettingApiMutation as useAdd } from "../../redux/actions/SettingAction";
