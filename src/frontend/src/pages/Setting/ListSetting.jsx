@@ -111,13 +111,13 @@ function ListSetting() {
             <TableHead>
               <TableRow>
                 <TableCell className="text-title-md font-bold text-black dark:text-white">
-                  URL
+                  Kay
                 </TableCell>
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
                   align="center"
                 >
-                  Name
+                  Value
                 </TableCell>
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
