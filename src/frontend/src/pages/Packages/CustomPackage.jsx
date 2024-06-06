@@ -34,10 +34,9 @@ function ListPackage() {
   };
 
   const [changeStatusApi] = useChangeStatusPackageMutation();
-  const handleConfirm = async (ele) => {
-    console.log(ele);
+  const handleConfirm = async () => {
     try {
-      const item = { id: ele, status: true };
+      const item = { id: selectedPackageId, status: true };
       const response = await changeStatusApi(item);
       console.log("response", response);
       const { status, message } = response.data;
@@ -130,118 +129,112 @@ function ListPackage() {
               <TableBody>
                 {getCustomKaData.map((elem, index) => {
                   return (
-                    <React.Fragment key={index}>
-                      <TableRow
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell
+                        className="text-title-md font-bold text-black dark:text-white"
+                        component="th"
+                        scope="row"
+                        style={{
+                          maxWidth: "100px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
                         }}
                       >
-                        <TableCell
-                          className="text-title-md font-bold text-black dark:text-white"
-                          component="th"
-                          scope="row"
-                          style={{
-                            maxWidth: "100px",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {elem.store_id}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                        >
-                          {elem.amazonProduct}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                        >
-                          {elem.csvProduct}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                        >
-                          {elem.email}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                        >
-                          {elem.message}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                        >
-                          {elem.status.toString()}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="text-title-md font-bold text-black dark:text-white"
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Link
-                            onClick={() => handleOpenModal(elem.package_id)}
-                          >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ fontSize: 20 }}
-                            />
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                      <Modal open={modalOpen} onClose={handleCloseModal}>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            width: 400,
-                            bgcolor: "background.paper",
-                            boxShadow: 24,
-                            p: 4,
-                          }}
-                        >
-                          <Typography variant="h6" component="h2">
-                            Are you sure to add the package?
-                          </Typography>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              mt: 2,
-                            }}
-                          >
-                            <Button
-                              variant="contained"
-                              onClick={handleCloseModal}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              variant="contained"
-                              onClick={() => handleConfirm(elem._id)}
-                              color="primary"
-                            >
-                              Confirm
-                            </Button>
-                          </Box>
-                        </Box>
-                      </Modal>
-                    </React.Fragment>
+                        {elem.store_id}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.amazonProduct}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.csvProduct}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.email}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.message}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.status ? "Active" : "Inactive"}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Link onClick={() => handleOpenModal(elem._id)}>
+                          <PiDotsThreeOutlineVerticalFill
+                            style={{ fontSize: 20 }}
+                          />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
               </TableBody>
             )}
           </Table>
+          <Modal open={modalOpen} onClose={handleCloseModal}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: "background.paper",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6" component="h2">
+                Are you sure to add the package?
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 2,
+                }}
+              >
+                <Button variant="contained" onClick={handleCloseModal}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleConfirm}
+                  color="primary"
+                >
+                  Confirm
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
         </TableContainer>
       </DefaultLayout>
     </div>
