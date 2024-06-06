@@ -22,6 +22,7 @@ function ListPackage() {
   const [getCustomKaData, setGetCustomKaData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPackageId, setSelectedPackageId] = useState(null);
+  const [customprice,setCustomprice]=useState("")
 
   const handleOpenModal = (packageId) => {
     setSelectedPackageId(packageId);
@@ -36,17 +37,22 @@ function ListPackage() {
   const [changeStatusApi] = useChangeStatusPackageMutation();
   const handleConfirm = async () => {
     try {
-      const item = { id: selectedPackageId, status: true };
-      const response = await changeStatusApi(item);
-      console.log("response", response);
-      const { status, message } = response.data;
-      if (status === 200) {
-        toast.success(message, { duration: 3000 });
-        handleCloseModal();
-        handleGetCustomPackage();
-      } else if (status === 400) {
-        toast.error(message, { duration: 3000 });
+      if (!customprice) {
+        toast.error('Price is Required')
+      }else{
+        const item = { id: selectedPackageId, status: true };
+        const response = await changeStatusApi(item);
+        console.log("response", response);
+        const { status, message } = response.data;
+        if (status === 200) {
+          toast.success(message, { duration: 3000 });
+          handleCloseModal();
+          handleGetCustomPackage();
+        } else if (status === 400) {
+          toast.error(message, { duration: 3000 });
+        }
       }
+     
     } catch (error) {
       toast.error(error, { duration: 3000 });
     }
@@ -228,6 +234,8 @@ function ListPackage() {
         label="Enter Amount"
         variant="outlined"
         type="number"
+        value={customprice}
+        onChange={(e) => setCustomprice(e.target.value)}
         fullWidth
       />
       <Box
@@ -247,6 +255,7 @@ function ListPackage() {
     </Box>
   </Box>
 </Modal>
+
 
         </TableContainer>
       </DefaultLayout>
