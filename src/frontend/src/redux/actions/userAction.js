@@ -37,6 +37,14 @@ export const userApi = createApi({
         method: "GET",
       }),
     }),
+    // =======
+    ChangeStatusPackage: builder.mutation({
+      query: (item) => ({
+        url: `changeStatus/${item.id}`,
+        method: "PATCH",
+        body: item,
+      }),
+    }),
   }),
 });
 
@@ -46,4 +54,5 @@ export const {
   useDeletePackageMutation,
   useEditPackageMutation,
   useGetCustomPackageMutation,
+  useChangeStatusPackageMutation,
 } = userApi;
