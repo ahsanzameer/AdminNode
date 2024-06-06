@@ -1,4 +1,4 @@
-import { Packages } from "../model/index.js";
+import { Customplan, Packages } from "../model/index.js";
 import asyncHandler from "express-async-handler";
 import { catchErr } from "../configuration/config.js";
 
@@ -91,10 +91,10 @@ export const addPackage = asyncHandler(async (req, res) => {
       packageCSVImportBoolean,
       packageAmazonImportNumber,
     } = req.body;
-  
+
     // Create a mutable variable for packageCsvImportNumber
     let packageCsvImportNumber = initialPackageCsvImportNumber;
-          console.log("csv",packageCsvImportNumber,packageCSVImportBoolean)
+    console.log("csv", packageCsvImportNumber, packageCSVImportBoolean);
     // Check for required fields
     if (
       !packageName ||
@@ -148,7 +148,7 @@ export const addPackage = asyncHandler(async (req, res) => {
         } already exists`,
       });
     }
-    console.log('csv File ',packageCSVImportBoolean,packageCsvImportNumber)
+    console.log("csv File ", packageCSVImportBoolean, packageCsvImportNumber);
 
     // Create the package
     const data = await Packages.create({
@@ -299,6 +299,23 @@ export const editPackage = asyncHandler(async (req, res) => {
       error,
       status: 500,
       message: catchErr("editPackage", "Package"),
+    });
+  }
+});
+
+export const customPackage = asyncHandler(async (req, res) => {
+  try {
+    const data = await Customplan.find();
+    return res.status(200).json({
+      status: 200,
+      object: data,
+      message: "Found the Data",
+    });
+  } catch (error) {
+    return res.status(200).json({
+      error,
+      status: 500,
+      message: catchErr("customPackage", "Package"),
     });
   }
 });

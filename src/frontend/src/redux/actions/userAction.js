@@ -31,6 +31,12 @@ export const userApi = createApi({
         body: item,
       }),
     }),
+    GetCustomPackage: builder.mutation({
+      query: () => ({
+        url: "customPackage",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -39,4 +45,5 @@ export const {
   useGetPackageMutation,
   useDeletePackageMutation,
   useEditPackageMutation,
+  useGetCustomPackageMutation,
 } = userApi;

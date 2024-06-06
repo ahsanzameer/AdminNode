@@ -5,6 +5,7 @@ import {
   editPackage,
   deletePackage,
   getSinglePackage,
+  customPackage,
 } from "../controller/packageController.js";
 import { fromData } from "../configuration/config.js";
 
@@ -15,5 +16,6 @@ packageRouter.post("/addPackage", fromData, addPackage);
 packageRouter.delete("/deletePackage/:_id", deletePackage);
 packageRouter.get("/getSinglePackage/:_id", getSinglePackage);
 packageRouter.patch("/editPackage/:_id", fromData, editPackage);
+packageRouter.get("/customPackage", customPackage);
 
 export default packageRouter;
