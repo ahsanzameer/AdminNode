@@ -11,7 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Box, Modal, Typography, Button } from "@mui/material";
+import { Box, Modal, Typography, Button, TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import {
   useChangeStatusPackageMutation,
@@ -200,41 +200,54 @@ function ListPackage() {
             )}
           </Table>
           <Modal open={modalOpen} onClose={handleCloseModal}>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                bgcolor: "background.paper",
-                boxShadow: 24,
-                p: 4,
-              }}
-            >
-              <Typography variant="h6" component="h2">
-                Are you sure to add the package?
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mt: 2,
-                }}
-              >
-                <Button variant="contained" onClick={handleCloseModal}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleConfirm}
-                  color="primary"
-                >
-                  Confirm
-                </Button>
-              </Box>
-            </Box>
-          </Modal>
+  <Box
+    sx={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    }}
+  >
+    <Typography variant="h6" component="h2">
+      Are you sure to add the package?
+    </Typography>
+    <Box
+      component="form"
+      sx={{
+        mt: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <TextField
+        label="Enter Amount"
+        variant="outlined"
+        type="number"
+        fullWidth
+      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          mt: 2,
+        }}
+      >
+        <Button variant="contained" onClick={handleCloseModal}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={handleConfirm} color="primary">
+          Confirm
+        </Button>
+      </Box>
+    </Box>
+  </Box>
+</Modal>
+
         </TableContainer>
       </DefaultLayout>
     </div>

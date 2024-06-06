@@ -20,7 +20,11 @@ const CustommSchema = new Schema(
     status:{
       type:Boolean,
       default:false
-  }
+  },
+  price:{
+    type:Number,
+    default:null
+}
   },
   {
     timestamps: true,
