@@ -17,6 +17,10 @@ const CustommSchema = new Schema(
     store_id: {
       type: String,
     },
+    status:{
+      type:Boolean,
+      default:false
+  }
   },
   {
     timestamps: true,

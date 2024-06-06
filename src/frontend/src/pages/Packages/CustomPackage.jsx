@@ -119,88 +119,93 @@ function ListPackage() {
             </TableHead>
 
             <TableBody>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell
-                  className="text-title-md font-bold text-black dark:text-white"
-                  component="th"
-                  scope="row"
-                  style={{
-                    maxWidth: "100px",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
+              { getCustomKaData.map((elem,index)=>{
+                return(
+                  <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  key={index}
                 >
-                  66599d8752a13299306e5d4a
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="text-title-md font-bold text-black dark:text-white"
-                >
-                  8000
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="text-title-md font-bold text-black dark:text-white"
-                >
-                  9000
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="text-title-md font-bold text-black dark:text-white"
-                >
-                  random@gmail.com
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="text-title-md font-bold text-black dark:text-white"
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Aliquid, voluptatibus!
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="text-title-md font-bold text-black dark:text-white"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Link
-                    id="fade-button"
-                    aria-controls={open ? "fade-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={(event) => handleClick(event, row)}
-                    // onClick={() => (handleClick(), setData(row))}
+                  <TableCell
+                    className="text-title-md font-bold text-black dark:text-white"
+                    component="th"
+                    scope="row"
+                    style={{
+                      maxWidth: "100px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
                   >
-                    <PiDotsThreeOutlineVerticalFill style={{ fontSize: 20 }} />
-                  </Link>
-                </TableCell>
-                <Menu
-                  id="fade-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "fade-button",
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Fade}
-                >
-                  <MenuItem onClick={() => handleClose("edit", row)}>
-                    Edit
-                  </MenuItem>
-                  <MenuItem onClick={() => handleClose("detail", row)}>
-                    View details
-                  </MenuItem>
-                  <MenuItem onClick={() => handleClose("delete", row)}>
-                    Delete
-                  </MenuItem>
-                </Menu>
-              </TableRow>
+                   {elem.store_id}
+                   {console.log(elem.store_id)}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="text-title-md font-bold text-black dark:text-white"
+                  >
+                      {elem.amazonProduct}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="text-title-md font-bold text-black dark:text-white"
+                  >
+                    {elem.csvProduct}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="text-title-md font-bold text-black dark:text-white"
+                  >
+                  {elem.email}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="text-title-md font-bold text-black dark:text-white"
+                  >
+                  {elem.message}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="text-title-md font-bold text-black dark:text-white"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Link
+                      id="fade-button"
+                      aria-controls={open ? "fade-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={(event) => handleClick(event, row)}
+                      // onClick={() => (handleClick(), setData(row))}
+                    >
+                      <PiDotsThreeOutlineVerticalFill style={{ fontSize: 20 }} />
+                    </Link>
+                  </TableCell>
+                  <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "fade-button",
+                    }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Fade}
+                  >
+                    <MenuItem onClick={() => handleClose("edit", row)}>
+                      Edit
+                    </MenuItem>
+                    <MenuItem onClick={() => handleClose("detail", row)}>
+                      View details
+                    </MenuItem>
+                    <MenuItem onClick={() => handleClose("delete", row)}>
+                      Delete
+                    </MenuItem>
+                  </Menu>
+                </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </TableContainer>
