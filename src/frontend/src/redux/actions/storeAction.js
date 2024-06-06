@@ -19,8 +19,10 @@ export const storeApi = createApi({
           url: `getSingleStore/${item.currentPage}/${item.id}`,
           method: "GET",
         };
+    
       },
-    }),
+    }
+  ),
 
     SearchStore: builder.mutation({
       query: (item) => ({

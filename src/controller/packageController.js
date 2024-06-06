@@ -91,10 +91,10 @@ export const addPackage = asyncHandler(async (req, res) => {
       packageCSVImportBoolean,
       packageAmazonImportNumber,
     } = req.body;
-
+  
     // Create a mutable variable for packageCsvImportNumber
     let packageCsvImportNumber = initialPackageCsvImportNumber;
-
+          console.log("csv",packageCsvImportNumber,packageCSVImportBoolean)
     // Check for required fields
     if (
       !packageName ||
@@ -148,6 +148,7 @@ export const addPackage = asyncHandler(async (req, res) => {
         } already exists`,
       });
     }
+    console.log('csv File ',packageCSVImportBoolean,packageCsvImportNumber)
 
     // Create the package
     const data = await Packages.create({

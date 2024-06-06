@@ -175,3 +175,59 @@ export const register = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
+export const update = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { userName, email, oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: 404,
+        message: "User not found",
+      });
+    }
+
+    if (userName) {
+      user.userName = userName;
+    }
+    if (email) {
+      const emailExist = await User.findOne({ email });
+      if (emailExist && emailExist._id.toString() !== id) {
+        return res.status(400).json({
+          status: 400,
+          message: "This email is already registered",
+        });
+      }
+      user.email = email;
+    }
+    if (oldPassword && newPassword) {
+      const isOldPasswordValid = await compare(oldPassword, user.password);
+      if (!isOldPasswordValid) {
+        return res.status(400).json({
+          status: 400,
+          message: "Old password is incorrect",
+        });
+      }
+      user.password = await hash(newPassword, 10);
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      status: 200,
+      message: "User updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({
+      error,
+      status: 500,
+      message: catchErr("update", "auth"),
+    });
+  }
+});

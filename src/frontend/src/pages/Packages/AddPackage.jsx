@@ -5,12 +5,11 @@ import { useAddPackageMutation } from "../../redux/actions/userAction";
 import SelectGroupOne from "../../components/Forms/SelectGroup/SelectGroupOne";
 
 function AddPackage() {
-  const [showCSV, setShowCSV] = useState("No");
   const [value, setValue] = useState({
     packageName: "",
     packagePrice: "",
     packageAmazonImportNumber: "",
-    packageCSVImportBoolean: showCSV,
+    packageCSVImportBoolean: "No", // Default value
     packageCsvImportNumber: "",
     packageDesc: "",
   });
@@ -20,11 +19,13 @@ function AddPackage() {
       ...value,
       [e.target.name]: e.target.value,
     });
+   
   };
   const [addProductApi, { isLoading }] = useAddPackageMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("value,", value);
     try {
       const response = await addProductApi(value);
       const { status, message } = response.data;
@@ -34,7 +35,7 @@ function AddPackage() {
           packageName: "",
           packagePrice: "",
           packageAmazonImportNumber: "",
-          packageCSVImportBoolean: showCSV,
+          packageCSVImportBoolean: "No", // Reset to default
           packageCsvImportNumber: "",
           packageDesc: "",
         });
@@ -51,10 +52,8 @@ function AddPackage() {
   return (
     <div className="w-full">
       <DefaultLayout>
-        {/* <Breadcrumb pageName="Form Layout" /> */}
         <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
           <div className="flex flex-col gap-9">
-            {/* <!-- Contact Form --> */}
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
@@ -107,9 +106,14 @@ function AddPackage() {
                     />
                   </div>
 
-                  <SelectGroupOne setShowCSV={setShowCSV} />
+                  <SelectGroupOne
+                    showCSV={value.packageCSVImportBoolean}
+                    setShowCSV={(newValue) =>
+                      setValue({ ...value, packageCSVImportBoolean: newValue })
+                    }
+                  />
 
-                  {showCSV == "Yes" && (
+                  {value.packageCSVImportBoolean === "Yes" && (
                     <div className="mb-4">
                       <label className="mb-2.5 block text-black dark:text-white">
                         CSV number

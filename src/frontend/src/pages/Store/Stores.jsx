@@ -74,6 +74,7 @@ const Stores = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [storeData, setStoreData] = useState([]);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [finalStoreData, setFinalStoreData] = useState([]);
   useEffect(() => {
@@ -133,6 +134,7 @@ const Stores = () => {
       const { status, message, data } = response?.data;
       if (status === 200) {
         setStoreData(data);
+     
       } else {
         toast.error(message, { duration: 3000 });
       }
@@ -203,8 +205,11 @@ const Stores = () => {
                   <EnhancedTableHead />
                   <TableBody>
                     {(storeData?.length > 0 ? storeData : finalStoreData).map(
+                      
                       (row, index) => {
                         return (
+                        <>
+                
                           <TableRow key={index}>
                             <TableCell className="text-title-md font-bold text-black dark:text-white">
                               {row.storeName}
@@ -259,7 +264,7 @@ const Stores = () => {
                                 View
                               </button>
                             </TableCell>
-                          </TableRow>
+                          </TableRow></>
                         );
                       }
                     )}

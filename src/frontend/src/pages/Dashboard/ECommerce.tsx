@@ -1,15 +1,44 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import CardDataStats from "../../components/CardDataStats";
-import ChartOne from "../../components/Charts/ChartOne";
-import ChartTwo from "../../components/Charts/ChartTwo";
 import DefaultLayout from "../../layout/DefaultLayout";
+import { useGetStoreMutation } from "@/redux/actions/storeAction";
 
 const ECommerce: React.FC = () => {
+  const [getStore, { data, error, isLoading }] = useGetStoreMutation();
+  const [totalStores, setTotalStores] = useState<number>(0);
+  const [totalProductCount, setTotalProductCount] = useState<number>(0);
+  console.log(totalProductCount)
+  const [totalProfit, setTotalProfit] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getStore(); 
+        if (response && response.data && response.data.data) {
+          const stores = response.data.data;
+          setTotalStores(stores.length);
+
+          // Calculate total product count and profit
+          let productCountSum = 0;
+          stores.forEach(store => {
+            productCountSum += store.productCount;
+          });
+          setTotalProductCount(productCountSum);
+          setTotalProfit(productCountSum * 10); // Assuming $10 profit per product
+        }
+      } catch (error) {
+        console.error("Error fetching store data:", error);
+      }
+    };
+    fetchData();
+  }, [getStore]);
   return (
     <div className="w-full">
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats title="Total Stores" total={totalStores} >
+          
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -29,7 +58,7 @@ const ECommerce: React.FC = () => {
           </svg>
         </CardDataStats>
 
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Product's" total={totalProductCount} >
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -53,7 +82,7 @@ const ECommerce: React.FC = () => {
           </svg>
         </CardDataStats>
 
-        <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        {/* <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -95,17 +124,17 @@ const ECommerce: React.FC = () => {
               fill=""
             />
           </svg>
-        </CardDataStats>
+        </CardDataStats> */}
       </div>
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        {/* <ChartThree /> */}
+      {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+  
         <ChartOne />
         <ChartTwo />
-        {/* <MapOne /> */}
-        <div className="col-span-12 xl:col-span-8">{/* <TableOne /> */}</div>
-        {/* <ChatCard /> */}
-      </div>
+ 
+        <div className="col-span-12 xl:col-span-8"></div>
+    
+      </div> */}
     </DefaultLayout>
     </div>
   );

@@ -13,7 +13,7 @@ import DarkModeSwitcher from "../../components/Header/DarkModeSwitcher";
 const SignIn = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("12345678");
+  const [password, setPassword] = useState("12345");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,6 +31,10 @@ const SignIn = () => {
   const [loginApi, { isLoading }] = useLoginMutation();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setValidationError("Please fill in all fields");
+      return;
+    }
     try {
       const response = await loginApi({ email, password });
       const { status, message, data } = response.data;
