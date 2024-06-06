@@ -1,35 +1,43 @@
-import Menu from "@mui/material/Menu";
-import Fade from "@mui/material/Fade";
-import Table from "@mui/material/Table";
-import Paper from "@mui/material/Paper";
-import TableRow from "@mui/material/TableRow";
-import MenuItem from "@mui/material/MenuItem";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DefaultLayout from "../../layout/DefaultLayout";
 import TableContainer from "@mui/material/TableContainer";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-
+import { Box, Modal, Typography, Button } from "@mui/material";
 import toast from "react-hot-toast";
 import { useGetCustomPackageMutation } from "../../redux/actions/userAction";
 
 function ListPackage() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const [getCustomKaData, setGetCustomKaData] = useState([]);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPackageId, setSelectedPackageId] = useState(null);
 
   const [GetCustomPackageApi] = useGetCustomPackageMutation();
-  const onGetCustomPackage = async () => {
+
+  const handleOpenModal = (packageId) => {
+    setSelectedPackageId(packageId);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPackageId(null);
+    setModalOpen(false);
+  };
+
+  const handleConfirm = (packageId) => {
+    // Add your confirmation logic here
+    console.log("Confirmed for package ID:", packageId);
+    alert(packageId)
+    handleCloseModal();
+  };
+
+  const fetchData = async () => {
     try {
       const response = await GetCustomPackageApi();
       const { status, message, object } = response.data;
@@ -45,8 +53,9 @@ function ListPackage() {
   };
 
   useEffect(() => {
-    onGetCustomPackage();
+    fetchData();
   }, []);
+
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -88,6 +97,12 @@ function ListPackage() {
                   className="text-title-md font-bold text-black dark:text-white"
                   align="center"
                 >
+                  Status
+                </TableCell>
+                <TableCell
+                  className="text-title-md font-bold text-black dark:text-white"
+                  align="center"
+                >
                   Actions
                 </TableCell>
               </TableRow>
@@ -96,83 +111,98 @@ function ListPackage() {
             <TableBody>
               {getCustomKaData.map((elem, index) => {
                 return (
-                  <TableRow
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    key={index}
-                  >
-                    <TableCell
-                      className="text-title-md font-bold text-black dark:text-white"
-                      component="th"
-                      scope="row"
-                      style={{
-                        maxWidth: "100px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
+                  <React.Fragment key={index}>
+                    <TableRow
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      {elem.store_id}
-                      {console.log(elem.store_id)}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      className="text-title-md font-bold text-black dark:text-white"
-                    >
-                      {elem.amazonProduct}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      className="text-title-md font-bold text-black dark:text-white"
-                    >
-                      {elem.csvProduct}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      className="text-title-md font-bold text-black dark:text-white"
-                    >
-                      {elem.email}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      className="text-title-md font-bold text-black dark:text-white"
-                    >
-                      {elem.message}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      className="text-title-md font-bold text-black dark:text-white"
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Link
-                        id="fade-button"
-                        aria-controls={open ? "fade-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={(event) => handleClick(event)}
-                        // onClick={() => (handleClick(), setData(row))}
+                      <TableCell
+                        className="text-title-md font-bold text-black dark:text-white"
+                        component="th"
+                        scope="row"
+                        style={{
+                          maxWidth: "100px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
                       >
-                        <PiDotsThreeOutlineVerticalFill
-                          style={{ fontSize: 20 }}
-                        />
-                      </Link>
-                    </TableCell>
-                    <Menu
-                      id="fade-menu"
-                      MenuListProps={{
-                        "aria-labelledby": "fade-button",
-                      }}
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      TransitionComponent={Fade}
-                    >
-                      <MenuItem onClick={handleClose}>Update Status</MenuItem>
-                    </Menu>
-                  </TableRow>
+                        {elem.store_id}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.amazonProduct}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.csvProduct}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.email}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.message}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                      >
+                        {elem.status ? "active" : "inactive"}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className="text-title-md font-bold text-black dark:text-white"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Link
+                          onClick={() => handleOpenModal(elem.package_id)}
+                        >
+                          <PiDotsThreeOutlineVerticalFill
+                            style={{ fontSize: 20 }}
+                          />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                    <Modal open={modalOpen} onClose={handleCloseModal}>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: 400,
+                          bgcolor: "background.paper",
+                          boxShadow: 24,
+                          p: 4,
+                        }}
+                      >
+                        <Typography variant="h6" component="h2">
+                          Are you sure to add the package?
+                        </Typography>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                          <Button variant="contained" onClick={handleCloseModal}>
+                            Cancel
+                          </Button>
+                          <Button variant="contained" onClick={() => handleConfirm(elem._id)} color="primary">
+                            Confirm
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Modal>
+                  </React.Fragment>
                 );
               })}
             </TableBody>
