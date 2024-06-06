@@ -5,7 +5,7 @@ import { config } from "dotenv";
 import express, { json, urlencoded } from "express";
 import { DBConnection } from "./src/configuration/config.js";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 
 import {
   authRoute,
@@ -18,9 +18,6 @@ config();
 DBConnection();
 
 const app = express();
-
-
-
 
 app.use(json());
 app.use(cors());
@@ -38,14 +35,16 @@ app.use("/setting", settingRouter);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "src/frontend/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "src", "frontend", "dist", "index.html"));
+  app.get("*", (_, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "src", "frontend", "dist", "index.html")
+    );
   });
 } else {
-  app.get('/', (req, res) => {
-    res.send('api is running');
+  app.get("/", (_, res) => {
+    res.send("api is running");
   });
 }
 app.listen(port, () =>

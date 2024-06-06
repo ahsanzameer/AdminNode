@@ -17,11 +17,12 @@ import {
   Settings,
   AddPackage,
   ListPackage,
+  CustomPackage,
   EditPackage,
   AddSetting,
   ListSetting,
   StoreDetails,
-  Stores
+  Stores,
 } from "./pages/user";
 
 const Router = () => {
@@ -74,6 +75,15 @@ const Router = () => {
               <>
                 <PageTitle title="List Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <ListPackage />
+              </>
+            }
+          />
+          <Route
+            path="/custompackage"
+            element={
+              <>
+                <PageTitle title="Custom Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <CustomPackage />
               </>
             }
           />
