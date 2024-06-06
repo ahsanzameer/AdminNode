@@ -323,17 +323,20 @@ export const customPackage = asyncHandler(async (req, res) => {
 export const changeStatus = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.params;
-    const { status } = req.body;
+    const { status, price } = req.body;
     const data = await Customplan.findByIdAndUpdate(
       _id,
-      { status },
+      { status, price },
       { new: true }
     );
     if (!data) {
       return res.status(200).json({ status: 400, message: "No data found" });
     }
-    if (!status) {
-      return res.status(200).json({ status: 400, message: "No status found" });
+    if (!status || !price) {
+      return res.status(200).json({
+        status: 400,
+        message: `No ${!status ? "status" : "price"} found`,
+      });
     }
     return res.status(200).json({
       data,
