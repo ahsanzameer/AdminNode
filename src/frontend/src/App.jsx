@@ -35,7 +35,7 @@ const Router = () => {
             path="/"
             element={
               <>
-                <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <ECommerce />
               </>
             }
@@ -45,7 +45,7 @@ const Router = () => {
             path="/profile"
             element={
               <>
-                <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <Profile />
               </>
             }
@@ -55,7 +55,7 @@ const Router = () => {
             path="/settings"
             element={
               <>
-                <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <Settings />
               </>
             }
@@ -64,7 +64,7 @@ const Router = () => {
             path="/addpackage"
             element={
               <>
-                <PageTitle title="Add Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <AddPackage />
               </>
             }
@@ -73,7 +73,7 @@ const Router = () => {
             path="/listpackage"
             element={
               <>
-                <PageTitle title="List Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <ListPackage />
               </>
             }
@@ -82,7 +82,7 @@ const Router = () => {
             path="/custompackage"
             element={
               <>
-                <PageTitle title="Custom Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <CustomPackage />
               </>
             }
@@ -91,7 +91,7 @@ const Router = () => {
             path="/editpackage"
             element={
               <>
-                <PageTitle title="Edit Package | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <EditPackage />
               </>
             }
@@ -100,7 +100,7 @@ const Router = () => {
             path="/addsetting"
             element={
               <>
-                <PageTitle title="Add Setting | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <AddSetting />
               </>
             }
@@ -109,7 +109,7 @@ const Router = () => {
             path="/listsetting"
             element={
               <>
-                <PageTitle title="List Setting | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <ListSetting />
               </>
             }
@@ -118,7 +118,7 @@ const Router = () => {
             path="/stores"
             element={
               <>
-                <PageTitle title="Stores | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <Stores />
               </>
             }
@@ -127,7 +127,7 @@ const Router = () => {
             path="/storedetails"
             element={
               <>
-                <PageTitle title="Store Detail | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
                 <StoreDetails />
               </>
             }
