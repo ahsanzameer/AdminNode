@@ -12,8 +12,8 @@ import DarkModeSwitcher from "../../components/Header/DarkModeSwitcher";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 

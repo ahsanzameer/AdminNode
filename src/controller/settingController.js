@@ -60,7 +60,7 @@ export const addSetting = asyncHandler(async (req, res) => {
  */
 
 export const addSetting = asyncHandler(async (req, res) => {
-  const { keyName, keyValue, isDefault } = req.body;
+  const { keyName, keyValue } = req.body;
   try {
     if (!keyName || !keyValue) {
       return res.status(200).json({
@@ -68,7 +68,7 @@ export const addSetting = asyncHandler(async (req, res) => {
         message: `${!keyName ? "keyName" : "keyValue"} is required `,
       });
     } else {
-      const data = await Settings.create({ keyName, keyValue, isDefault });
+      const data = await Settings.create({ keyName, keyValue, isDefault:1 });
       return res.status(200).json({
         data,
         status: 200,
