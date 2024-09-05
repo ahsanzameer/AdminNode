@@ -102,7 +102,9 @@ function ListSetting() {
     <Loader />
   ) : (
     <div className="w-full">
+
       <DefaultLayout>
+        <h1 className="text-lg font-medium text-red-600 mb-3">You can only change value. Key can't be changed</h1>
         <TableContainer
           component={Paper}
           className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
@@ -257,16 +259,3 @@ function ListSetting() {
 }
 
 export default ListSetting;
-
-const DATA = [
-  {
-    key_name: "google_url",
-    key_value: "https://www.google.com/",
-    isDefault: 1,
-  },
-  {
-    key_name: "facebook_url",
-    key_value: "https://www.facebook.com/",
-    isDefault: 0,
-  },
-];
