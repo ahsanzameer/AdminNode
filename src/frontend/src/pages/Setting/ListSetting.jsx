@@ -111,7 +111,7 @@ function ListSetting() {
             <TableHead>
               <TableRow>
                 <TableCell className="text-title-md font-bold text-black dark:text-white">
-                  Kay
+                  Key
                 </TableCell>
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
@@ -119,12 +119,12 @@ function ListSetting() {
                 >
                   Value
                 </TableCell>
-                <TableCell
+                {/* <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
                   align="center"
                 >
                   Default
-                </TableCell>
+                </TableCell> */}
                 <TableCell
                   className="text-title-md font-bold text-black dark:text-white"
                   align="center"
@@ -160,12 +160,12 @@ function ListSetting() {
                     >
                       {row?.keyValue}
                     </TableCell>
-                    <TableCell
+                    {/* <TableCell
                       align="center"
                       className="text-title-md font-bold text-black dark:text-white"
                     >
                       {row?.isDefault == 1 ? "Yes" : "No"}
-                    </TableCell>
+                    </TableCell> */}
 
                     <TableCell
                       align="center"
