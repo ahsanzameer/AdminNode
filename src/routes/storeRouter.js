@@ -6,6 +6,7 @@ import {
   getStore,
   searchStore,
   getSingleStore,
+  deleteStoreAPI,
   addStoreStateApi,
   searchStoreProduct,
   getAllStoreStateApi,
@@ -24,5 +25,6 @@ storeRoute.post("/addStoreStateApi", fromData, addStoreStateApi);
 storeRoute.get("/getSingleStoreProduct/:id", getSingleStoreProduct);
 storeRoute.post("/searchStoreProduct", fromData, searchStoreProduct);
 storeRoute.get("/getSingleStoreStateApi/:id", getSingleStoreStateApi);
+storeRoute.post("/deleteStoreAPI", deleteStoreAPI);
 
 export default storeRoute;

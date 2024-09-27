@@ -464,3 +464,20 @@ export const addStore = asyncHandler(async (_, res) => {
     });
   }
 });
+
+export const deleteStoreAPI = asyncHandler(async (_,res) => {
+  try {
+    await Store.deleteMany({});
+    return res.status(200).json({
+      status: 200,
+      message: "Database emptied successfully.",
+    });
+  } catch (error) {
+    console.log({error})
+    return res.status(200).json({
+      error,
+      status: 500,
+      message: catchErr("addStore", "Store"),
+    });
+  }
+})
