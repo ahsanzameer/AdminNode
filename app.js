@@ -12,6 +12,7 @@ import {
   storeRouter,
   PackageRoute,
   settingRouter,
+  productRouter,
 } from "./src/routes/index.js";
 
 config();
@@ -31,6 +32,7 @@ app.use("/auth", authRoute);
 app.use("/store", storeRouter);
 app.use("/product", PackageRoute);
 app.use("/setting", settingRouter);
+app.use("/product", productRouter);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
