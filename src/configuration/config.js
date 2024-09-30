@@ -4,15 +4,19 @@ import { config } from "dotenv";
 import { connect } from "mongoose";
 
 config();
+const { log } = console;
+
+const URL = process.env.MONGO_URL;
+export const fromData = multer().none();
 export const DBConnection = async () => {
   try {
-    await connect(process.env.MONGO_URL);
-    console.log(
-      chalk.hex("#fff").italic(" 𝔐𝔬𝔫𝔤𝔬𝔇𝔅 𝔦𝔰 𝔠𝔬𝔫𝔫𝔢𝔠𝔱𝔢𝔡 𝔰𝔲𝔠𝔠𝔢𝔰𝔰𝔣𝔲𝔩𝔩𝔶 ")
-    );
+    await connect(URL);
+    log(chalk.hex("#fff").italic(" MongoDB is connected successfully "));
   } catch (error) {
-    console.log(
-      chalk.hex("#ff5252").italic(`MongoDB error catch error: 💥💥💥� ${error}`)
+    log(
+      chalk
+        .hex("#ff52s52")
+        .italic(`MongoDB error catch error: 💥💥💥� ${error}`)
     );
   }
 };
@@ -20,5 +24,3 @@ export const DBConnection = async () => {
 export const catchErr = (data, a) => {
   return `Internal server error in ${data} API, ${a} controller`;
 };
-
-export const fromData = multer().none();

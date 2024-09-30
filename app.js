@@ -13,6 +13,7 @@ import {
   PackageRoute,
   settingRouter,
   productRouter,
+  billingRouter,
 } from "./src/routes/index.js";
 
 config();
@@ -33,6 +34,7 @@ app.use("/store", storeRouter);
 app.use("/product", PackageRoute);
 app.use("/setting", settingRouter);
 app.use("/product", productRouter);
+app.use("/billing", billingRouter);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +53,6 @@ if (process.env.NODE_ENV === "production") {
 }
 app.listen(port, () =>
   console.log(
-    chalk.hex("#76ABAE")("𝙰𝚍𝚖𝚒𝚗 𝙽𝚘𝚍𝚎 𝚊𝚙𝚙 𝚙𝚘𝚛𝚝", `𝚑𝚝𝚝𝚙://𝚕𝚘𝚌𝚊𝚕𝚑𝚘𝚜𝚝:${port}/`)
+    chalk.hex("#76ABAE")("Sprader Admin app", `http://localhos:${port}/`)
   )
 );
