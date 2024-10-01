@@ -38,7 +38,7 @@ const CreateBlogs = () => {
           </h1>
           <form
             onSubmit={handleSubmit}
-            className="bg-white p-8 rounded-lg shadow-lg"
+            className=" dark:bg-black bg-white p-8 rounded-lg shadow-lg"
           >
             <div className="mb-6">
               <label
@@ -80,7 +80,7 @@ const CreateBlogs = () => {
 
             <div className="mb-6">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-graydark text-sm font-bold mb-2"
                 htmlFor="category"
               >
                 Blog Category
@@ -104,7 +104,7 @@ const CreateBlogs = () => {
 
             <div className="mb-6">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className=" block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="image"
               >
                 Upload Image
