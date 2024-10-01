@@ -23,6 +23,8 @@ import {
   ListSetting,
   StoreDetails,
   Stores,
+  CreateBlogs,
+  YourBlogs,
 } from "./pages/user";
 
 const Router = () => {
@@ -132,6 +134,26 @@ const Router = () => {
               </>
             }
           />
+
+          {/* // --------------------- */}
+          <Route
+            path="/createblogs"
+            element={
+              <>
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
+                <CreateBlogs />
+              </>
+            }
+          />
+          <Route
+            path="/yourblogs"
+            element={
+              <>
+                <PageTitle title="SHAFSAMAZONAFFILIATE IMPORTER" />
+                <YourBlogs />
+              </>
+            }
+          />
         </Route>
 
         <Route element={<PublicRoute />}>
@@ -145,13 +167,13 @@ const Router = () => {
 };
 
 const ProtectedRoute = () => {
-  const user = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth);
 
   return user ? <Layout /> : <Navigate to="/login" />;
 };
 
 const PublicRoute = () => {
-  const user = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth);
 
   return user ? <Navigate to="/" /> : <Outlet />;
 };

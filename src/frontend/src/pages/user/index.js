@@ -1,4 +1,6 @@
 import ECommerce from "../Dashboard/ECommerce";
+import CreateBlogs from "../Blogs/CreateBlogs";
+import YourBlogs from "../Blogs/YourBlogs";
 
 import Profile from "../Profile";
 import Settings from "../Settings";
@@ -23,4 +25,6 @@ export {
   StoreDetails,
   Stores,
   CustomPackage,
+  CreateBlogs,
+  YourBlogs,
 };
