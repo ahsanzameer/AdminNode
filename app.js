@@ -14,6 +14,7 @@ import {
   settingRouter,
   productRouter,
   billingRouter,
+  blogRoute,
 } from "./src/routes/index.js";
 
 config();
@@ -29,6 +30,7 @@ app.use(BP.json({ type: "application/*+json" }));
 
 const port = process.env.PORT || 8010;
 
+app.use("/blog", blogRoute);
 app.use("/auth", authRoute);
 app.use("/store", storeRouter);
 app.use("/product", PackageRoute);

@@ -4,6 +4,7 @@ import settingRouter from "./settingRoute.js";
 import storeRouter from "./storeRouter.js";
 import productRouter from "./productRoute.js";
 import billingRouter from "./billingRouter.js";
+import blogRoute from "./blogRoute.js";
 
 export {
   authRoute,
@@ -12,4 +13,5 @@ export {
   storeRouter,
   productRouter,
   billingRouter,
+  blogRoute,
 };

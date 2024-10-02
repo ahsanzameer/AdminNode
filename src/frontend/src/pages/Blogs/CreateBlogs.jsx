@@ -1,14 +1,19 @@
 import DefaultLayout from "@/layout/DefaultLayout";
 import React, { useState } from "react";
+import { usePostBlogMutation as useAdd } from "../../redux/actions/blogAction";
+import toast from "react-hot-toast";
+import { catchErr } from "@/utils/urls";
+import { useSelector } from "react-redux";
 
 const CreateBlogs = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    category: "",
-    image: null,
-  });
+  const { user } = useSelector((state) => state.auth);
 
+  const [formData, setFormData] = useState({
+    blogTitle: "", // Match the backend model
+    blogDescription: "", // Match the backend model
+    blogImage: null,
+    uploaderID: user._id,
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -17,18 +22,43 @@ const CreateBlogs = () => {
     });
   };
 
+  const [AddBlogApi, { isLoading }] = useAdd();
+
   const handleImageChange = (e) => {
     setFormData({
       ...formData,
-      image: e.target.files[0],
+      blogImage: e.target.files[0],
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Blog Submitted:", formData);
-    // Submit logic here
+    const blogTitle = formData.blogTitle;
+    const blogDescription = formData.blogDescription;
+    const blogImage =
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    const uploaderID = user._id;
+    try {
+      const response = await AddBlogApi({
+        blogTitle,
+        blogDescription,
+        blogImage,
+        uploaderID,
+      });
+      const { status, message } = response.data;
+
+      console.log("message", message);
+      if (status === 200) {
+        toast.success(message, { duration: 3000 });
+      } else if (status === 400) {
+        toast.error(message, { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(catchErr, { duration: 3000 });
+    }
   };
+
   return (
     <div className="w-full">
       <DefaultLayout>
@@ -43,15 +73,15 @@ const CreateBlogs = () => {
             <div className="mb-6">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="title"
+                htmlFor="blogTitle"
               >
                 Blog Title
               </label>
               <input
                 type="text"
-                id="title"
-                name="title"
-                value={formData.title}
+                id="blogTitle"
+                name="blogTitle" // Matches the key in the backend
+                value={formData.blogTitle}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 placeholder="Enter blog title"
@@ -62,14 +92,14 @@ const CreateBlogs = () => {
             <div className="mb-6">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="description"
+                htmlFor="blogDescription"
               >
                 Blog Description
               </label>
               <textarea
-                id="description"
-                name="description"
-                value={formData.description}
+                id="blogDescription"
+                name="blogDescription" // Matches the key in the backend
+                value={formData.blogDescription}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 placeholder="Enter blog description"
@@ -80,39 +110,15 @@ const CreateBlogs = () => {
 
             <div className="mb-6">
               <label
-                className="block text-graydark text-sm font-bold mb-2"
-                htmlFor="category"
-              >
-                Blog Category
-              </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                required
-              >
-                <option value="">Select a category</option>
-                <option value="Technology">Technology</option>
-                <option value="Lifestyle">Lifestyle</option>
-                <option value="Travel">Travel</option>
-                <option value="Health">Health</option>
-                <option value="Culture">Culture</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <label
                 className=" block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="image"
+                htmlFor="blogImage"
               >
                 Upload Image
               </label>
               <input
                 type="file"
-                id="image"
-                name="image"
+                id="blogImage"
+                name="blogImage"
                 onChange={handleImageChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 required
@@ -124,7 +130,7 @@ const CreateBlogs = () => {
                 type="submit"
                 className="w-full sm:w-auto px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
               >
-                Add Blog
+                {isLoading ? "Uploading..." : "Add Blog"}
               </button>
             </div>
           </form>

@@ -3,12 +3,13 @@ import { rootReducer } from "./reducers";
 import { userApi } from "./actions/userAction";
 import { authApi } from "./actions/authAction";
 import { settingApi } from "./actions/SettingAction";
+import { storeApi } from "./actions/storeAction";
+import { blogApi } from "./actions/blogAction";
 
 import zakhira from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { persistStore, persistReducer } from "redux-persist";
-import { storeApi } from "./actions/storeAction";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const persistConfig = {
     userApi.reducerPath,
     settingApi.reducerPath,
     storeApi.reducerPath,
+    blogApi.reducerPath,
   ],
 };
 
@@ -35,7 +37,8 @@ const store = configureStore({
       authApi.middleware,
       userApi.middleware,
       settingApi.middleware,
-      storeApi.middleware
+      storeApi.middleware,
+      blogApi.middleware
     ),
 });
 

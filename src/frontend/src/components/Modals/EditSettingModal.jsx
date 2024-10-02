@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
-import { useEditPackageMutation } from "../../redux/actions/userAction";
 import toast from "react-hot-toast";
 import { useEditSettingApiMutation } from "../../redux/actions/SettingAction";
 
