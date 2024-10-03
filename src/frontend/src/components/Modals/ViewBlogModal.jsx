@@ -27,10 +27,10 @@ const ViewBlogModal = ({ data, open, onClose }) => {
                 alt="Blog post"
                 className="w-full h-48 sm:h-64 object-cover mb-4 rounded-lg shadow-sm"
               />
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">
-                {data?.blogTitle}
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 dark:text-white text-black">
+                "{data?.blogTitle}"
               </h2>
-              <p className="text-gray-600 mb-4">{data?.blogDescription}</p>
+              <p className=" mb-4   dark:text-white text-black">{data?.blogDescription}</p>
             </>
           </div>
         </div>

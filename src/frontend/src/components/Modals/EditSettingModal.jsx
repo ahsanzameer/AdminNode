@@ -7,10 +7,10 @@ import { useEditSettingApiMutation } from "../../redux/actions/SettingAction";
 export const BoxStyle = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "60%",
   transform: "translate(-50%, -50%)",
-  width: "90%",
-  maxWidth: "500px",
+  width: "100%",
+  maxWidth: "800px",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
