@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   getPackages: getPackagesSlice.reducer,
   getSetting: getSettingSlice.reducer,
   getStoreId: getStoreIdSlice.reducer,
-  getBlogData: getBlogSlice.reducer, // Name must match the one in useSelector
+  getBlogData: getBlogSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [settingApi.reducerPath]: settingApi.reducer,
