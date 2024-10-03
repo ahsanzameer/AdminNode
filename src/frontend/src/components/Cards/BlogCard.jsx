@@ -4,6 +4,14 @@ import React from "react";
 const BlogCard = ({ data, onRead, onDelete, onEdit }) => {
   return (
     <div className="dark:bg-graydark bg-white rounded-lg shadow-md overflow-hidden">
+
+<div className="relative left-2 top-2  mb-4 ">
+          <p className=" mb-0   dark:text-white text-black  font-bold"> User: {data.uploaderID.userName}</p>
+          <p className=" mb-2   dark:text-gray text-black">{moment(data.createdAt).format("Do MMM YYYY")}</p>
+          </div>
+
+
+
       <img
         src={data.blogImage}
         alt="Blog post"
@@ -11,17 +19,13 @@ const BlogCard = ({ data, onRead, onDelete, onEdit }) => {
       />
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
-          <p className="dark:text-white text-black text-gray-500 text-sm truncate font-bold">
-            User: {data.uploaderID.userName}
-          </p>
+          
 
-          <p className="dark:text-white text-black text-gray-500 text-sm truncate font-bold">
-            Date: {moment(data.createdAt).format("Do MMM YYYY")}
-          </p>
+         
         </div>
-        <p className="dark:text-white text-black text-gray-500 text-sm mb-4 truncate font-bold">
+        {/* <p className="dark:text-white text-black text-gray-500 text-sm mb-4 truncate font-bold">
           Email: {data.uploaderID.email}
-        </p>
+        </p> */}
 
         <h3 className="dark:text-white text-black text-lg font-semibold mb-2">
           {data.blogTitle}
