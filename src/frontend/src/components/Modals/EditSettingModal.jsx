@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import toast from "react-hot-toast";
 import { useEditSettingApiMutation } from "../../redux/actions/SettingAction";
 
-const style = {
+export const BoxStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -70,7 +70,7 @@ const EditSettingModal = (props) => {
       style={{ overflow: "auto" }}
     >
       <Box
-        sx={style}
+        sx={BoxStyle}
         className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
       >
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
