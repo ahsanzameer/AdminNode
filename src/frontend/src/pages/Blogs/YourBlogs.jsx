@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 const YourBlogs = () => {
   const dispatch = useDispatch();
   const blogData = useSelector((state) => state.getBlogData.value);
-
+  //console.log("this is blog data "+blogData);
   const [isModalOpen, setIsModalOpen] = useState({
     visible: false,
     data: null,

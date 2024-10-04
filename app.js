@@ -21,7 +21,7 @@ config();
 DBConnection();
 
 const app = express();
-
+app.use(express.static('public'))
 app.use(json());
 app.use(cors());
 app.use(BP.json());

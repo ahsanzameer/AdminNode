@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const BillingShecma = new Schema(
-  {
+  { 
     store_id: {
       type: String,
     },

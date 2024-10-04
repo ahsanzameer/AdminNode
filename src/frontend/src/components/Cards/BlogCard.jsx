@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils/urls";
 import moment from "moment";
 import React from "react";
 
@@ -13,7 +14,7 @@ const BlogCard = ({ data, onRead, onDelete, onEdit }) => {
 
 
       <img
-        src={data.blogImage}
+        src={`${baseUrl}/images/${data.blogImage}`}
         alt="Blog post"
         className="w-full h-48 object-cover"
       />

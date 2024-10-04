@@ -3,7 +3,13 @@ import { catchErr } from "../configuration/config.js";
 import { Blogs, User } from "../model/index.js";
 
 export const postBlog = asyncHandler(async (req, res) => {
+
+  
+
+
   const { blogTitle, blogDescription, blogImage, uploaderID } = req.body;
+
+
   try {
     if (!blogTitle || !blogDescription || !blogImage || !uploaderID) {
       res.status(200).json({
@@ -37,11 +43,16 @@ export const postBlog = asyncHandler(async (req, res) => {
         message: `This Blog ${chectitle ? "Title" : ""} already exists`,
       });
     }
+
+    const imagePath = req.file.filename;
+    console.log('image',imagePath)
+
     const newBlog = await Blogs.create({
       blogTitle,
       blogDescription,
-      blogImage,
-      uploaderID,
+      blogImage:imagePath,
+      uploaderID
+      
     });
     res
       .status(200)
